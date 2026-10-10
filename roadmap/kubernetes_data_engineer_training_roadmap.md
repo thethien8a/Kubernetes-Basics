@@ -17,7 +17,7 @@ Lộ trình đã được tách thành **28 file buổi học**, mỗi file là 
 2. Học tuần tự từ Buổi 01 đến Buổi 28. Mỗi buổi theo vòng: challenge → tự triển khai → quan sát → debug → review → giải thích concept.
 3. Sau review, cập nhật checklist, ngày học, minh chứng và lỗi còn vướng trong [file tiến độ](tien-do-hoc-tap.md).
 4. Tra [kiến trúc, resource budget và mental model](kien-truc-va-mental-model.md) khi cần đối chiếu; không cần dựng full stack từ đầu.
-5. Khi chuyển sang LLM khác, dùng prompt bàn giao trong [hướng dẫn mentor](huong-dan-hoc-va-mentor.md), kèm file tiến độ và file buổi đang học.
+5. Khi chuyển sang LLM khác, dùng prompt bàn giao trong [hướng dẫn mentor](huong-dan-hoc-va-mentor.md). LLM có quyền truy cập tự đọc file tiến độ/buổi đang học và kiểm tra kết quả bằng công cụ chỉ đọc; chỉ yêu cầu học viên cung cấp tài liệu/output tối thiểu đã loại dữ liệu nhạy cảm khi không thể tự truy cập.
 
 Mốc 4 tuần là lịch tham khảo. Một buổi có thể chia thành nhiều lần học; chỉ chuyển tiếp khi đã hoàn thành challenge và hiểu được phần trọng tâm, không chạy theo số ngày.
 

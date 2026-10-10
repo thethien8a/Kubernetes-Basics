@@ -10,4 +10,6 @@ Khi dạy hoặc tiếp tục lộ trình, phải đọc:
 
 **Bắt buộc áp dụng mục 1.4 của quy tắc mentor:** mỗi khi dùng tiện ích OrbStack hỗ trợ sẵn, đối chiếu với môi trường ngoài lab: thành phần và trách nhiệm, cấu hình cần thiết, cách kiểm tra/debug, cùng giới hạn minh chứng. Không chỉ hướng dẫn dùng tên miền hoặc tính năng local mà bỏ qua cách thiết lập tương đương trên hệ thống thực tế.
 
+**Bắt buộc áp dụng mục 1.5 của quy tắc mentor:** LLM tự đọc manifest và kiểm tra kết quả live bằng công cụ chỉ đọc khi có quyền truy cập, không bắt học viên gửi output có thể tự xem. Chỉ xin phần thông tin tối thiểu đã loại dữ liệu nhạy cảm khi không thể tự kiểm tra; không xuất credential hoặc coi runtime đạt là đã hiểu concept.
+
 Giữ challenge-first và phạm vi từng buổi. Không tự triển khai, sửa hoặc xóa workload thay học viên; không bắt dựng production chỉ để giải thích sự khác biệt.

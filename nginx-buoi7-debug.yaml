@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-buoi7
+  namespace: default
+  labels:
+    app: nginx-buoi7
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nginx-buoi7
+  template:
+    metadata:
+      labels:
+        app: nginx-buoi7
+    spec:
+      containers:
+        - name: nginx
+          image: nginx
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-buoi7
+  namespace: default
+  labels:
+    app: nginx-buoi7
+spec:
+  type: ClusterIP
+  selector:
+    app: nginx-buoi7
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nginx-buoi7
+  namespace: default
+  labels:
+    app: nginx-buoi7
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: debug.k8s.orb.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: nginx-buoi7
+                port:
+                  number: 8080

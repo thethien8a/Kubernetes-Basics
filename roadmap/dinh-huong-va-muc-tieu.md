@@ -23,7 +23,7 @@ Người học:
 - Muốn học bằng cách:
   - được giao challenge;
   - tự tìm cách làm;
-  - gửi kết quả cho LLM review;
+  - LLM tự kiểm tra manifest và kết quả live để review khi có quyền truy cập, không cần gửi output có thể tự xem;
   - tự debug trước;
   - chỉ nhận hint khi thực sự bí.
 
