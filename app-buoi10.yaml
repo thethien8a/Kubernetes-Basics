@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-buoi10
+  namespace: default
+  labels:
+    app: app-buoi10
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app-buoi10
+  template:
+    metadata:
+      labels:
+        app: app-buoi10
+    spec:
+      containers:
+        - name: app
+          image: python:3.12-alpine
+          command: ["python", "-u", "-c"]
+          args:
+            - |
+              import time
+              # Khoi tao 128 MiB RAM va ghi du lieu vao tung page 4KB de ep kernel cap phat bo nho vat ly.
+              data = bytearray(128 * 1024 * 1024)
+              for i in range(0, len(data), 4096):
+                  data[i] = 1
+              print("Allocated 128 MiB")
+              time.sleep(3600)
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "32Mi"
+            limits:
+              cpu: "500m"
+              memory: "1Gi"
