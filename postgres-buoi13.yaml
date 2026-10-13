@@ -1,0 +1,91 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: data-postgres-buoi13
+  namespace: default
+spec:
+  storageClassName: local-path
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-buoi13
+  namespace: default
+  labels:
+    app: postgres-buoi13
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: postgres-buoi13
+  template:
+    metadata:
+      labels:
+        app: postgres-buoi13
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:16-alpine
+          ports:
+            - name: postgres
+              containerPort: 5432
+          env:
+            - name: POSTGRES_USER_FILE
+              value: /run/secrets/postgres/username
+            - name: POSTGRES_PASSWORD_FILE
+              value: /run/secrets/postgres/password
+            - name: POSTGRES_DB
+              value: labdb
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata
+          volumeMounts:
+            - name: credentials
+              mountPath: /run/secrets/postgres
+              readOnly: true
+            - name: data
+              mountPath: /var/lib/postgresql/data
+          readinessProbe:
+            tcpSocket:
+              port: postgres
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+      volumes:
+        - name: credentials
+          secret:
+            secretName: postgres-secret-buoi13
+            items:
+              - key: username
+                path: username
+              - key: password
+                path: password
+        - name: data
+          persistentVolumeClaim:
+            claimName: data-postgres-buoi13
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-buoi13
+  namespace: default
+spec:
+  type: ClusterIP
+  selector:
+    app: postgres-buoi13
+  ports:
+    - name: postgres
+      port: 5432
+      targetPort: postgres
