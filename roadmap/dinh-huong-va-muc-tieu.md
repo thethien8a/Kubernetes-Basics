@@ -21,11 +21,13 @@ Người học:
   - sửa field đó thì hành vi hệ thống thay đổi ra sao;
   - debug như thế nào khi workload không hoạt động.
 - Muốn học bằng cách:
-  - được giao challenge;
-  - tự tìm cách làm;
+  - trước mỗi phần học, được ôn kỹ lý thuyết và kiến thức nền liên quan, vai trò/quan hệ thành phần;
+  - được giải thích từng khối cấu hình tương ứng: field ở đâu, ý nghĩa, lý do chọn, tham chiếu và hành vi khi đổi/sai;
+  - học theo khối nhỏ với ví dụ/sơ đồ, kiểm tra hiểu và giải đáp phần còn vướng trước khi thực hành;
+  - sau đó nhận challenge từng bước, biết mục đích/dự đoán/dấu hiệu thành công và tự triển khai;
   - LLM tự kiểm tra manifest và kết quả live để review khi có quyền truy cập, không cần gửi output có thể tự xem;
   - tự debug trước;
-  - chỉ nhận hint khi thực sự bí.
+  - dùng hint khi cần hỗ trợ debug, không thay việc được giảng lý thuyết/cấu hình trước lab.
 
 Người học có thể yêu cầu LLM sinh skeleton YAML hoặc command khi cần.
 

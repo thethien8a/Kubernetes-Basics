@@ -2,7 +2,7 @@
 
 **Đối tượng:** Data Engineer muốn học Kubernetes theo hướng thực hành  
 **Thời lượng:** 1 tháng, khoảng 7 buổi/tuần, tổng cộng ~28 buổi  
-**Phương pháp:** Challenge-first, tự triển khai, tự debug, LLM đóng vai trò mentor/reviewer  
+**Phương pháp:** Ôn kỹ lý thuyết và cấu hình → kiểm tra hiểu → tự thực hành từng bước → debug/review, LLM đóng vai trò mentor/reviewer\
 **Môi trường chính:** macOS trên Mac mini Apple M4, 24 GB RAM, 10 CPU cores  
 **Container runtime / local platform:** OrbStack  
 **Mục tiêu cuối:** Tự dựng và vận hành được một mini data platform trên Kubernetes
@@ -14,7 +14,7 @@ Lộ trình đã được tách thành **28 file buổi học**, mỗi file là 
 ## Cách dùng
 
 1. Đọc [định hướng và mục tiêu](dinh-huong-va-muc-tieu.md) cùng [hướng dẫn học và mentor](huong-dan-hoc-va-mentor.md) trước Buổi 1.
-2. Học tuần tự từ Buổi 01 đến Buổi 28. Mỗi buổi theo vòng: challenge → tự triển khai → quan sát → debug → review → giải thích concept.
+2. Học tuần tự từ Buổi 01 đến Buổi 28. Trước mỗi phần thực hành, ôn kỹ lý thuyết/kiến thức nền liên quan, đọc và giải thích cấu hình tương ứng, dự đoán hành vi và kiểm tra hiểu; sau đó mới giao challenge → tự triển khai từng bước → quan sát/debug → review/tổng kết. Chia phần dài thành khối nhỏ, không chỉ giao YAML/lệnh rồi mới giảng ở review.
 3. Sau review, cập nhật checklist, ngày học, minh chứng và lỗi còn vướng trong [file tiến độ](tien-do-hoc-tap.md).
 4. Tra [kiến trúc, resource budget và mental model](kien-truc-va-mental-model.md) khi cần đối chiếu; không cần dựng full stack từ đầu.
 5. Khi chuyển sang LLM khác, dùng prompt bàn giao trong [hướng dẫn mentor](huong-dan-hoc-va-mentor.md). LLM có quyền truy cập tự đọc file tiến độ/buổi đang học và kiểm tra kết quả bằng công cụ chỉ đọc; chỉ yêu cầu học viên cung cấp tài liệu/output tối thiểu đã loại dữ liệu nhạy cảm khi không thể tự truy cập.
@@ -26,7 +26,7 @@ Mốc 4 tuần là lịch tham khảo. Một buổi có thể chia thành nhiề
 | Tài liệu | Nội dung | Khi nào dùng |
 |---|---|---|
 | [Định hướng và mục tiêu](dinh-huong-va-muc-tieu.md) | Bối cảnh người học, năng lực cần đạt, Spark Standalone vs Native Kubernetes, môi trường local, phạm vi và Definition of Done | Trước Buổi 1 và lúc nghiệm thu |
-| [Hướng dẫn học và mentor](huong-dan-hoc-va-mentor.md) | Challenge-first, không học thuộc YAML/kubectl, hint ladder, format review, quy tắc LLM và prompt tiếp tục | Trước khi học và khi mở hội thoại mới |
+| [Hướng dẫn học và mentor](huong-dan-hoc-va-mentor.md) | Lý thuyết/cấu hình trước thực hành, không học thuộc YAML/kubectl, hint ladder cho debug, format review, quy tắc LLM và prompt tiếp tục | Trước khi học và khi mở hội thoại mới |
 | [Kiến trúc và mental model](kien-truc-va-mental-model.md) | Kiến trúc cuối khóa, budget máy 24 GB RAM / 10 cores và các mô hình tư duy cần hình thành | Tra cứu trong khóa, đặc biệt Tuần 3–4 |
 | [Tiến độ học tập](tien-do-hoc-tap.md) | Checklist 28 buổi, trạng thái/ngày học/minh chứng, lỗi còn vướng, nhật ký và nghiệm thu | Cập nhật sau mỗi lần học |
 
@@ -96,6 +96,6 @@ Mục tiêu:
 
 ## Bắt đầu
 
-Mở [Buổi 01 — Kubernetes cluster đầu tiên](buoi-hoc/01-cluster-dau-tien.md). Buổi đầu không viết YAML; chỉ enable Kubernetes trên OrbStack, quan sát cluster và giải thích những gì thấy được.
+Mở [Buổi 01 — Kubernetes cluster đầu tiên](buoi-hoc/01-cluster-dau-tien.md). Trước thực hành, học khái niệm/thành phần cluster và cấu hình truy cập/context; sau đó enable Kubernetes trên OrbStack, quan sát cluster và đối chiếu với phần đã học. Buổi đầu không viết YAML.
 
 Khi hoàn thành, ghi kết quả vào [tiến độ học tập](tien-do-hoc-tap.md), rồi chuyển sang Buổi 02.
