@@ -1,6 +1,6 @@
 # Tổng kết buổi 15 — MinIO-compatible object storage
 
-**Ngày bắt đầu/chốt:** 2026-10-13–2026-10-14, giờ Việt Nam. **Trạng thái:** Hoàn thành. **Tiến độ:** 15/28.
+**Ngày bắt đầu/chốt:** 2026-10-13–2026-10-14, giờ Việt Nam. **Trạng thái:** Hoàn thành; đã bổ sung và kiểm chứng Ingress cho Console. **Tiến độ:** 15/28.
 
 [Challenge gốc](../roadmap/buoi-hoc/15-minio.md) · [Tiến độ](../roadmap/tien-do-hoc-tap.md) · [Manifest](../minio-buoi15.yaml) · [Hội thoại học](https://ampcode.com/threads/T-01a137fb-78ee-765a-9fdd-2e78befcfdac)
 
@@ -10,7 +10,7 @@
 
 ## 1. Mục tiêu và kết quả
 
-Buổi học yêu cầu một object store có persistent storage, S3 API và Console; phân biệt endpoint trong cluster với cách truy cập từ Mac. Học viên triển khai manifest, cập nhật credential, đăng nhập Console, upload một file Markdown nhỏ, xóa Pod MinIO rồi xác nhận bucket/file vẫn hiện trong Console. Sau review, học viên giải thích được vai trò của ReplicaSet, PVC/PV, anonymous `403` và phạm vi phép thử.
+Buổi học yêu cầu một object store có persistent storage, S3 API và Console; phân biệt endpoint trong cluster với cách truy cập từ Mac. Học viên triển khai manifest, cập nhật credential, đăng nhập Console, upload một file Markdown nhỏ, xóa Pod MinIO rồi xác nhận bucket/file vẫn hiện trong Console. Sau review, học viên giải thích được vai trò của ReplicaSet, PVC/PV, anonymous `403` và phạm vi phép thử. Phần truy cập Console được mở rộng bằng Ingress `minio-console`, host `silo.pro.thien`; kiểm tra chỉ đọc xác nhận Traefik route tới Service `minio:9001` và GET trả `HTTP 200 text/html`.
 
 Học viên báo file vẫn còn sau khi Pod được tạo lại. Mentor tự đối chiếu Pod/PVC/PV/Service trước-sau; API Kubernetes không liệt kê object S3, nên nội dung object và việc file hiện trong Console được ghi đúng là kết quả học viên quan sát, không giả vờ đã đọc object bằng một client có credential.
 
@@ -24,22 +24,25 @@ Học viên báo file vẫn còn sau khi Pod được tạo lại. Mentor tự �
 | Volume | Deployment template tham chiếu PVC `minio-data`; container mount PVC tại `/data`, đúng với data path truyền cho server. PVC/PV giữ cùng identity qua phép thay Pod. |
 | Secret | `minio-credentials`, type `Opaque`, keys `root-user` và `root-password`; `MINIO_ROOT_USER`/`MINIO_ROOT_PASSWORD` lấy lần lượt qua `secretKeyRef`. Không lưu credential. |
 | Service | `minio`, `ClusterIP`, port `9000` tới S3 API, port `9001` tới Console; selector trỏ Pod `app=minio`. ClusterIP là endpoint ổn định, còn Pod IP có thể thay đổi. |
+| Ingress | [Manifest](../minio-buoi15-ingress.yaml) dùng class `traefik`, host `silo.pro.thien`, path `/` và backend Service `minio:9001`. Ingress address `192.168.139.2`; GET tới hostname trả `HTTP 200 text/html`. |
 
 ```diagram
 ┌──────────────┐  DNS: minio:9000  ┌───────────────┐       ┌─────────────┐
 │ Spark Pod    │──────────────────▶│ Service :9000 │──────▶│ S3 API      │
 └──────────────┘                   └───────────────┘       └──────┬──────┘
-                                                                  │
-┌──────────────┐  port-forward     ┌───────────────┐              │ writes /data
-│ Mac browser  │──────────────────▶│ Service :9001 │──▶ Console   │
-└──────────────┘                   └───────────────┘              ▼
-                                                        ┌────────────────┐
-                                                        │ PVC → PV       │
-                                                        │ local-path     │
-                                                        └────────────────┘
+                                                                  │ writes /data
+┌──────────────┐  HTTP silo.pro.thien ┌──────────────────┐        │
+│ Mac browser  │─────────────────────▶│ Traefik Ingress  │        │
+└──────────────┘                      └────────┬─────────┘        │
+                                                │ Service :9001    │
+                                                ▼                  ▼
+                                           ┌──────────┐  ┌────────────────┐
+                                           │ Console  │  │ PVC → PV       │
+                                           └──────────┘  │ local-path     │
+                                                         └────────────────┘
 ```
 
-Trong cùng namespace, client như Spark dùng `http://minio:9000`; từ namespace khác có thể dùng FQDN `minio.default.svc.cluster.local:9000`. Console là UI ở cổng 9001, không phải S3 API. Mac không tự có Kubernetes service DNS; `kubectl port-forward` tạo một đường truy cập local tạm thời.
+Trong cùng namespace, client như Spark dùng `http://minio:9000`; từ namespace khác có thể dùng FQDN `minio.default.svc.cluster.local:9000`. Console là UI ở cổng 9001, không phải S3 API. Mac không dùng Kubernetes Service DNS ở luồng này: browser gửi request tới hostname Ingress, Traefik chuyển tới Service `minio:9001`. `kubectl port-forward` vẫn hữu ích như một tunnel debug tạm thời; Ingress là đường truy cập đã kiểm chứng ở cuối buổi.
 
 ### Cập nhật Secret
 
@@ -73,7 +76,7 @@ Từ môi trường kiểm tra, GET `/` qua cổng Console trả `HTTP 200`, `te
 
 ## 5. OrbStack làm giúp ↔ hệ thống ngoài lab
 
-**Trong lab:** Kubernetes cung cấp Service ClusterIP và service discovery trong cluster; môi trường đã chuẩn bị CoreDNS và local-path provisioner/backing filesystem. `kubectl port-forward` là tunnel debug cục bộ, không phải IP public hoặc một Service LoadBalancer. Local PV bị ràng buộc với node `orbstack`; phép thử chỉ thay Pod trên cùng node.
+**Trong lab:** Kubernetes cung cấp Service ClusterIP và service discovery trong cluster; môi trường đã chuẩn bị CoreDNS và local-path provisioner/backing filesystem. OrbStack cung cấp wildcard `*.k8s.orb.local` cho Ingress/LoadBalancer; hostname tùy chọn `silo.pro.thien` hiện cũng được Mac phân giải thành `192.168.139.2`, nhưng lượt kiểm tra này không xác định ánh xạ đến từ `/etc/hosts` hay DNS resolver nào. `kubectl port-forward` là tunnel debug cục bộ, không phải IP public hoặc một Service LoadBalancer. Local PV bị ràng buộc với node `orbstack`; phép thử chỉ thay Pod trên cùng node.
 
 **Ngoài lab:** Cluster tự quản lý cần CoreDNS/cluster DNS và Service selector/endpoints đúng; managed cluster có thể cài sẵn nhưng cần xác nhận health/domain. Truy cập từ ngoài cluster thực tế thường cần LoadBalancer do cloud controller hoặc on-prem LB (ví dụ MetalLB), hoặc Ingress/Gateway phù hợp, cộng routing, DNS, firewall và TLS. Port-forward vẫn là công cụ debug, không phải endpoint production.
 
@@ -81,9 +84,9 @@ Storage ngoài lab cần backend và provisioner/CSI tương ứng, StorageClass
 
 ## 6. Liên hệ Data Engineering và bước tiếp theo
 
-Spark trong cùng namespace sẽ dùng S3 API qua Service `minio:9000`; credential Spark cần được cấu hình riêng và đổi theo khi credential được rotate. Console ở `9001` dành cho thao tác/quan sát bằng trình duyệt. Thực hành Spark đọc/ghi object chưa nằm trong Buổi 15; đó là nội dung Buổi 20.
+Spark trong cùng namespace sẽ dùng S3 API qua Service `minio:9000`; credential Spark cần được cấu hình riêng và đổi theo khi credential được rotate. Console ở `9001` dành cho thao tác/quan sát bằng trình duyệt. Ingress `silo.pro.thien` chỉ route tới Console qua Service `minio:9001`; S3 API không được expose bởi Ingress này. Thực hành Spark đọc/ghi object chưa nằm trong Buổi 15; đó là nội dung Buổi 20.
 
-Buổi 15 đã review đạt ngày 2026-10-14. Bước tiếp theo là [Buổi 16 — Spark Standalone](../roadmap/buoi-hoc/16-spark-standalone.md); chưa triển khai Spark workload trong Buổi 15.
+Buổi 15 đã review đạt ngày 2026-10-14. Kiểm tra live cuối buổi xác nhận `Ingress/minio-console` dùng class `traefik`, host `silo.pro.thien`, backend `minio:9001` và GET trả `HTTP 200 text/html`; Mac resolver trả `192.168.139.2`. Bước tiếp theo là [Buổi 16 — Spark Standalone](../roadmap/buoi-hoc/16-spark-standalone.md); chưa triển khai Spark workload trong Buổi 15.
 
 ## Tài liệu tham khảo
 
