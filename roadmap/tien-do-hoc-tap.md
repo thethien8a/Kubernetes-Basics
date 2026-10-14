@@ -6,8 +6,8 @@
 
 - **Ngày bắt đầu:** 2026-10-06
 - **Cách học từ 2026-10-13:** Ôn kỹ lý thuyết/kiến thức nền liên quan → đọc từng khối cấu hình, lý do và hành vi → kiểm tra hiểu → tự thực hành từng bước → debug/review. Áp dụng trước mọi phần mới và khi tiếp tục giữa buổi; không giao YAML/lệnh rồi mới giảng ở review. Quy tắc và prompt bàn giao đã cập nhật trong [hướng dẫn mentor](huong-dan-hoc-va-mentor.md).
-- **Buổi đang học:** [Buổi 15 - MinIO](buoi-hoc/15-minio.md) (`Đang học`), bắt đầu 2026-10-13. Buổi 14 đã được chốt theo yêu cầu học viên; phần PostgreSQL StatefulSet cùng thay Pod đã kiểm chứng, lab hai PVC riêng có hai member/PV/mount riêng nhưng marker/thay Pod và hai câu review cuối chưa được kiểm chứng. Không mở lại Buổi 14. Buổi 15 hiện ở phần lý thuyết và cấu hình MinIO; chưa giao thao tác hoặc triển khai workload.
-- **Tiến độ:** 14/28 buổi hoàn thành — cập nhật sau review theo checklist bên dưới.
+- **Buổi đang học:** [Buổi 16 - Spark Standalone](buoi-hoc/16-spark-standalone.md) (`Đang học`), bắt đầu 2026-10-14 theo yêu cầu tiếp tục. Buổi 14 đã được chốt theo yêu cầu học viên; phần PostgreSQL StatefulSet cùng thay Pod đã kiểm chứng, lab hai PVC riêng có hai member/PV/mount riêng nhưng marker/thay Pod và hai câu review cuối chưa được kiểm chứng. Không mở lại Buổi 14. Buổi 15 MinIO đã hoàn thành sau khi kiểm chứng upload còn qua thay Pod và review đạt.
+- **Tiến độ:** 15/28 buổi hoàn thành — cập nhật sau review theo checklist bên dưới.
 - **Ngày hoàn thành khóa:** —
 
 ## Cách cập nhật
@@ -64,10 +64,10 @@ Nếu cần học lại, bỏ dấu `[x]`, đặt `Cần ôn` và cập nhật t
 
 **Mốc cần đạt:** Spark Standalone chạy job và ghi Parquet vào MinIO.
 
-- [ ] **[Buổi 15 — MinIO](buoi-hoc/15-minio.md)** — MinIO có persistent storage, API và Console truy cập được; phân biệt endpoint nội bộ và endpoint từ Mac.
-  - **Trạng thái:** Đang học · **Ngày học:** 2026-10-13 · **Minh chứng/ghi chú:** Bắt đầu ôn object storage, S3 API/Console, luồng Service và persistence; mới học lý thuyết, chưa giao thao tác/triển khai hoặc xác nhận hiểu.
+- [x] **[Buổi 15 — MinIO](buoi-hoc/15-minio.md)** — MinIO-compatible object storage có persistent storage, API và Console truy cập được; phân biệt endpoint nội bộ và endpoint từ Mac.
+  - **Trạng thái:** Hoàn thành · **Ngày học:** 2026-10-13–2026-10-14 · **Minh chứng/ghi chú:** [Manifest](../minio-buoi15.yaml) dùng SILO pinned image sau lỗi pull Quay 401; Console trả HTTP 200, S3 API trả XML `AccessDenied` cho request ẩn danh. Học viên upload file Markdown qua Console và báo file còn sau thay Pod. Mentor xác nhận Pod UID đổi `d0b501dd…` → `269f7688…`, PVC/PV UID và Service ClusterIP giữ nguyên, endpoint đổi `.57` → `.58`; PVC Bound, Pod 1/1 Ready, PV local-path gắn node `orbstack`, reclaim Delete. Đã review ý nghĩa anonymous 403 và giới hạn node-local; không kiểm tra object bằng credential, không thử node failure/backup/HA hoặc Spark. Xem [tổng kết](../after-study/15-minio.md); tiến độ 15/28.
 - [ ] **[Buổi 16 — Spark Standalone](buoi-hoc/16-spark-standalone.md)** — Dựng 1 Master và 2 Workers; giải thích Worker tìm Master qua Service và khác Kubernetes Node thế nào.
-  - **Trạng thái:** Chưa học · **Ngày học:** — · **Minh chứng/ghi chú:** —
+  - **Trạng thái:** Đang học · **Ngày học:** 2026-10-14 · **Minh chứng/ghi chú:** Bắt đầu ôn Spark Standalone, vai trò Master/Worker, Spark Worker khác Kubernetes Node, Service discovery; chưa giao thao tác hoặc triển khai workload.
 - [ ] **[Buổi 17 — Spark networking và UI](buoi-hoc/17-spark-networking-va-ui.md)** — Master UI từ Mac hiển thị 2 workers registered; phân biệt UI traffic và Master RPC.
   - **Trạng thái:** Chưa học · **Ngày học:** — · **Minh chứng/ghi chú:** —
 - [ ] **[Buổi 18 — Submit Spark application](buoi-hoc/18-submit-spark-application.md)** — PySpark application chạy được; xác định vị trí Driver và Executors, vai trò Master và Worker.
@@ -784,6 +784,18 @@ Copy mẫu này cho mỗi lần học, kể cả khi buổi chưa hoàn thành. 
 - Đã đồng bộ AGENTS.md, hướng dẫn mentor và prompt bàn giao, định hướng và mục lục lộ trình. Ranh giới workload/credential, kiểm tra live chỉ đọc, đối chiếu OrbStack/ngoài lab và tiêu chí minh chứng giữ nguyên. Không viết lại lịch sử buổi đã hoàn thành hoặc bắt ôn lại toàn bộ khóa học trước mỗi lab.
 - Buổi 14 hiện quay lại phần ôn trước thực hành: Pod/PVC/PV/StorageClass → StatefulSet identity/ordinal → claim cố định so với template riêng → từng field storage-buoi14.yaml → DNS/readiness/lifecycle/retention → cấp storage và debug trong/ngoài lab. Tài liệu này đã được chuẩn bị, chưa coi học viên hiểu hoặc phần PVC riêng đã thực hành. Tạm dừng giao thêm lệnh; nếu đã có workload thì không dừng/xóa/rollback. Khi phần lý thuyết/cấu hình đã rõ mới tiếp tục lab và lưu baseline marker trước thay Pod 0.
 - Kết quả: giữ Buổi 14 Đang học, tổng 13/28 và Buổi 15 Chưa học. Lượt này chỉ thay tài liệu học tập local, không sửa manifest workload, kiểm tra/chỉnh cluster hoặc ghi dữ liệu; trạng thái runtime cuối dùng minh chứng đã ghi ở lượt trước, không báo là snapshot mới. Chưa commit/push.
+
+### 2026-10-14 — Buổi 15 (hoàn thành sau thực hành và review)
+- Thực hành: Học viên dùng manifest [minio-buoi15.yaml](../minio-buoi15.yaml), chuyển từ image MinIO Quay bị `401 UNAUTHORIZED` sang SILO pinned release. Học viên cập nhật credential Secret `default/minio-credentials`; mentor chỉ xác nhận type/key names và `secretKeyRef`, không đọc giá trị. Pod SILO cuối cùng Ready; không đủ bằng chứng để quy nguyên nhân lần CrashLoop đầu tiên cho riêng credential.
+- MinIO-compatible contract: `/usr/bin/silo server /data --console-address :9001`; Secret keys `root-user`/`root-password` map vào biến môi trường hiện có; PVC `minio-data` mount đúng `/data`; Service `minio` ClusterIP cung cấp 9000 S3 API và 9001 Console. Học viên xác nhận endpoint nội bộ cho Spark, Console từ Mac, và giới hạn storage gắn node.
+- Minh chứng: Deployment 1/1 Ready; Pod cũ UID `d0b501dd-efa3-4b8d-88ee-cdadaec9c7b6` → Pod mới `269f7688-66df-4585-b5fc-a6c032e8ffc5`, 0 restarts. PVC UID `b2a30bfb-11ea-4d05-a447-82ddc1fddce9` và PV UID `b36af023-98d5-45a9-8c4c-776b3687231e` giữ nguyên; PV `local-path` Bound, node affinity `orbstack`, reclaim Delete. Service ClusterIP `192.168.194.229` giữ nguyên; endpoint `192.168.194.57` → `.58`, cổng 9000/9001 Ready. Mentor GET cổng Console nhận 200 HTML; request S3 root không auth nhận 403 XML `AccessDenied`. Học viên báo file Markdown upload qua Console vẫn còn sau thay Pod; object content không được mentor truy vấn độc lập hoặc lưu.
+- Review: ReplicaSet tạo Pod bù, Deployment template gắn PVC; PVC/PV có identity riêng, data nằm trên backing path. Học viên phân biệt request không xác thực với API hỏng và xác nhận file còn sau Pod mới. Với reclaim Delete, xóa PVC có thể xóa PV/backing data trong setup này; thử nghiệm cùng node không chứng minh node/disk recovery, HA, replication hoặc backup. SILO là MinIO-compatible fork, không tuyên bố parity tuyệt đối với MinIO.
+- OrbStack/ngoài lab: local-path/CoreDNS/node/runtime do lab chuẩn bị; ClusterIP và Service DNS là Kubernetes API, port-forward là tunnel debug cục bộ. Ngoài lab cần endpoint network/DNS/TLS/LoadBalancer hoặc Ingress/Gateway thích hợp và backend/provisioner/CSI phù hợp; managed service có thể làm sẵn một phần nhưng phải kiểm tra. Chưa triển khai ngoài lab, chưa test Spark S3 client, node loss, backup/restore hoặc HA.
+- Tổng kết: [after-study/15-minio.md](../after-study/15-minio.md). Buổi 15 hoàn thành, tổng 15/28; theo yêu cầu tiếp tục bắt đầu Buổi 16, hiện mới ở phần lý thuyết, chưa có thao tác Spark.
+
+### 2026-10-14 — Buổi 16 (bắt đầu: ôn Spark Standalone)
+- Mục tiêu tiếp theo: một Spark Master và hai Spark Workers trong Kubernetes; phân biệt Spark Master/Worker với Kubernetes control plane/Node/Pod. Bước đầu chỉ ôn kiến trúc và network/service discovery trước khi scaffold hoặc giao workload.
+- Trạng thái: `Đang học`, tiến độ hoàn thành giữ 15/28. Chưa có manifest, Deployment/Service Spark, image pull, đăng ký Worker, UI hoặc Spark job được kiểm chứng.
 
 ## Tiếp tục học với LLM
 
