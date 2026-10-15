@@ -14,19 +14,9 @@ spec:
     spec:
       containers:
         - name: jupyter
-          image: jupyter/pyspark-notebook:latest
-          command:
-            - jupyter
-            - lab
-            - --ip=0.0.0.0
-            - --port=8888
-            - --no-browser
-            - --allow-root
-            - --NotebookApp.token=
-            - --NotebookApp.password=
+          image: jupyter-spark-4.1.3:latest
+          imagePullPolicy: Never
           env:
-            - name: JUPYTER_ENABLE_LAB
-              value: "yes"
             - name: SPARK_MASTER
               value: "spark://spark-master-svc:7077"
           ports:
@@ -61,7 +51,7 @@ metadata:
 spec:
   ingressClassName: traefik
   rules:
-    - host: jupyter.pro.thien
+    - host: jupyter.k8s.orb.local
       http:
         paths:
           - path: /
