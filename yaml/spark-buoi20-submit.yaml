@@ -1,0 +1,79 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: spark-submit-buoi20
+  namespace: default
+spec:
+  backoffLimit: 0
+  template:
+    metadata:
+      labels:
+        app: spark-submit-buoi20
+    spec:
+      restartPolicy: Never
+      automountServiceAccountToken: false
+      containers:
+        - name: submit
+          image: docker.io/library/spark:4.1.3-python3
+          imagePullPolicy: IfNotPresent
+          args:
+            - /opt/spark/bin/spark-submit
+            - --master
+            - spark://spark-master-svc:7077
+            - --deploy-mode
+            - client
+            - --driver-memory
+            - 512m
+            - --executor-memory
+            - 512m
+            - --executor-cores
+            - "1"
+            - --total-executor-cores
+            - "2"
+            - --packages
+            - org.apache.hadoop:hadoop-aws:3.4.2
+            - --conf
+            - spark.jars.ivy=/tmp/ivy
+            - --conf
+            - spark.hadoop.fs.s3a.endpoint=http://minio:9000
+            - --conf
+            - spark.hadoop.fs.s3a.endpoint.region=us-east-1
+            - --conf
+            - spark.hadoop.fs.s3a.path.style.access=true
+            - --conf
+            - spark.hadoop.fs.s3a.connection.ssl.enabled=false
+            - --conf
+            - spark.hadoop.fs.s3a.aws.credentials.provider=software.amazon.awssdk.auth.credentials.EnvironmentVariableCredentialsProvider
+            - --conf
+            - spark.hadoop.mapreduce.fileoutputcommitter.algorithm.version=1
+            - /opt/spark/app/spark-buoi20.py
+          env:
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: spark-s3-credentials
+                  key: access-key
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: spark-s3-credentials
+                  key: secret-key
+          resources:
+            requests:
+              cpu: 250m
+              memory: 512Mi
+            limits:
+              cpu: "1"
+              memory: 1Gi
+          volumeMounts:
+            - name: application
+              mountPath: /opt/spark/app
+              readOnly: true
+      volumes:
+        - name: application
+          configMap:
+            name: spark-buoi20-code

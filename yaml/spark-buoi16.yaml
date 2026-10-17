@@ -107,6 +107,16 @@ spec:
               value: "256m"
             - name: SPARK_WORKER_OPTS
               value: "-Dspark.worker.preferConfiguredMasterAddress=true"
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: spark-s3-credentials
+                  key: access-key
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: spark-s3-credentials
+                  key: secret-key
           ports:
             - name: rpc
               containerPort: 7078
