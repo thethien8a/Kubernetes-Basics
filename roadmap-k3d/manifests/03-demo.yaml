@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: de-lab
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: metadata-api
+  namespace: de-lab
+  labels:
+    team: data
+    environment: lab
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: metadata-api
+  template:
+    metadata:
+      labels:
+        app: metadata-api
+        tier: backend
+    spec:
+      containers:
+        - name: web
+          image: nginx:1.27-alpine
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: metadata-api-svc
+  namespace: de-lab
+spec:
+  type: ClusterIP
+  selector:
+    app: metadata-api
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80

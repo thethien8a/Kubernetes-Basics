@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: probe-lab
+  namespace: de-lab
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: probe-lab
+  template:
+    metadata:
+      labels:
+        app: probe-lab
+    spec:
+      containers:
+        - name: web
+          image: nginx:1.27-alpine
+          ports:
+            - containerPort: 80
+          startupProbe:
+            httpGet:
+              path: /
+              port: 80
+            periodSeconds: 2
+            failureThreshold: 10
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            periodSeconds: 3
+            failureThreshold: 2
+          livenessProbe:
+            httpGet:
+              path: /deadlock
+              port: 80
+            periodSeconds: 3
+            failureThreshold: 2

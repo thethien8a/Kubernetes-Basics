@@ -1,0 +1,23 @@
+# Cấu hình cụm k3d cho khóa học Kubernetes Data Engineer
+# File cấu hình k3d CLI (Simple spec), không phải Kubernetes manifest
+apiVersion: k3d.io/v1alpha5
+kind: Simple
+metadata:
+  name: de-k3d
+servers: 1
+agents: 2
+image: rancher/k3s:v1.33.6-k3s1
+kubeAPI:
+  hostIP: "127.0.0.1"
+  hostPort: "6445"
+ports:
+  - port: 8085:80
+    nodeFilters:
+      - loadbalancer
+options:
+  k3d:
+    wait: true
+    timeout: "180s"
+  kubeconfig:
+    updateDefaultKubeconfig: true
+    switchCurrentContext: true
