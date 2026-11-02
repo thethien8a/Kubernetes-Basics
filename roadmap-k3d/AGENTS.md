@@ -2,7 +2,7 @@
 
 Phạm vi: `roadmap-k3d/` và các thư mục con. Đây là khóa hiện hành; khóa OrbStack cũ đã học xong và được xoá khỏi repo.
 
-- Tuân thủ quy tắc mentor ở root và [quy tắc học và mentor](huong-dan-hoc-va-mentor.md), đặc biệt mục 1.4, 1.5, lý thuyết/cấu hình trước thực hành và checkpoint trắc nghiệm. Khi học khóa mới, đọc thêm `README.md`, `dinh-huong-va-cach-hoc.md`, `lab-va-hop-dong-nen-tang.md`, `tien-do-hoc-tap.md` và bài đang học của thư mục này.
+- Tuân thủ quy tắc mentor ở root và [quy tắc học và mentor](huong-dan-hoc-va-mentor.md), đặc biệt mục 1.4, 1.5, 1.6 (lệnh → output → cách đọc), lý thuyết/cấu hình trước thực hành và checkpoint trắc nghiệm. Khi học khóa mới, đọc thêm `README.md`, `dinh-huong-va-cach-hoc.md`, `lab-va-hop-dong-nen-tang.md`, `tien-do-hoc-tap.md` và bài đang học của thư mục này.
 - Tiến độ khóa này chỉ ghi trong `tien-do-hoc-tap.md` ở đây. Không dựng lại checklist hoặc tài nguyên khóa cũ; việc học viên xác nhận đã học xong khóa cũ là đầu vào lập kế hoạch, không phải bằng chứng runtime của khóa này.
 - Mục tiêu: DE hiểu concept, đọc manifest/Helm values, nhận diện phụ thuộc nền tảng và trao đổi đúng với DevOps. Không yêu cầu viết YAML từ trí nhớ; không biến khóa thành đào tạo quản trị cluster.
 - Mỗi lần chỉ dạy một khối nhỏ. Đọc bài là chuẩn bị, không đồng nghĩa đã dạy hoặc học viên đã hiểu. Dùng 2–4 câu tình huống sau khối quan trọng; giải thích phần chưa chắc trước khi giao lab.

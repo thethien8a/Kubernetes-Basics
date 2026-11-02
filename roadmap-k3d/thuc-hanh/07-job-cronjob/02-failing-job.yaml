@@ -1,0 +1,28 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: retry-demo
+  namespace: de-lab
+  labels:
+    team: data
+    environment: lab
+    lesson: "07"
+spec:
+  completions: 1
+  parallelism: 1
+  backoffLimit: 2
+  activeDeadlineSeconds: 120
+  template:
+    metadata:
+      labels:
+        lesson: "07"
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: fail
+          image: busybox:1.37.0
+          command: ["/bin/sh", "-ec"]
+          args:
+            - |
+              printf 'simulated failure\n' >&2
+              exit 42

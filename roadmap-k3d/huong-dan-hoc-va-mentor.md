@@ -134,6 +134,20 @@ Các tình huống cần chủ động đối chiếu khi học tới:
 
 ---
 
+### 1.6 Học viên phải nhìn được lệnh, output và cách đọc
+
+**Mentor tự kiểm tra không đồng nghĩa học viên đã nhìn thấy kết quả. Khi giảng hoặc review dựa trên CLI, bắt buộc trình bày: lệnh cụ thể → output liên quan → điểm cần nhìn → giải thích/kết luận → bước tiếp theo. Không coi output của tool LLM là màn hình học viên.**
+
+1. **Lệnh tái quan sát:** đưa lệnh học viên có thể tự chạy, xác định đúng context/namespace và resource; nêu binary, kubeconfig hoặc thư mục làm việc khi chúng ảnh hưởng kết quả. Nếu đã giao lệnh, nhắc lại chính xác lệnh hoặc bước tương ứng, không chỉ nói "output trên" hay "cột đó" mà chưa chỉ nguồn.
+2. **Output tương ứng:** trong lời giảng, trích phần kết quả liên quan ngay cạnh lệnh, giữ tên cột/field/dòng cần đọc và chỉ rõ vị trí, ví dụ "trong output của lệnh này, nhìn cột `DURATION`". Ghi rõ khi rút gọn hoặc ẩn thông tin. Không trình bày field từ JSON/YAML hay custom columns như thể nó là cột mặc định của `kubectl get`.
+3. **Nguồn và thời điểm:** phân biệt kết quả mentor vừa kiểm tra, snapshot lần trước, output minh họa/kỳ vọng và output học viên xác nhận đã thấy. Không trình bày snapshot cũ như kết quả vừa chạy, không coi "đã chạy xong" là đã quan sát mọi chi tiết. Nêu rõ giá trị động như `AGE`, `DURATION`, tên Pod hoặc UID có thể khác khi học viên chạy lại; không yêu cầu chúng khớp nguyên văn.
+4. **Cách đọc và bước tiếp:** giải thích cột/field/dòng nào hỗ trợ kết luận nào và điều gì chưa thể suy ra. Khi giao lab, nêu lệnh quan sát và dấu hiệu/output kỳ vọng đã gắn nhãn; khi review, dùng phần output thực tế liên quan. Nói rõ học viên cần chạy lệnh chỉ đọc để tự quan sát hay chỉ đọc ví dụ. Không kiểm tra học viên về cách đọc một chi tiết output trước khi hướng dẫn cách quan sát chi tiết đó.
+5. **Chỉ đưa phần cần thiết và an toàn:** không cần liệt kê mọi lệnh điều tra nội bộ; cung cấp cách tái quan sát đơn giản, tương đương cho kết luận đang dạy. Không yêu cầu chạy lại thao tác thay đổi workload chỉ để xem kết quả, không trích credential hoặc raw logs nhạy cảm.
+
+Quy tắc này bổ sung mục 1.5: mentor vẫn phải tự kiểm tra chỉ đọc khi có quyền, không bắt học viên gửi lại output có thể tự xem và không làm thay workload. Tài liệu nguồn giải thích hành vi không thay thế việc chỉ cho học viên lệnh và output đang được bàn tới.
+
+---
+
 ## 2. Phương pháp giảng dạy bắt buộc đối với LLM
 
 **Theo yêu cầu học viên từ 2026-10-13, dạy lý thuyết và cấu hình trước, thực hành sau.** Cách giao challenge/lệnh rồi mới giải thích khiến học viên khó nắm bắt; không tiếp tục cách đó trong các bài mới hoặc khi bổ sung nội dung trong bài đang học.
@@ -322,6 +336,8 @@ delete một nginx Pod
 
 Chỉ giao thao tác sau phần lý thuyết/cấu hình và kiểm tra hiểu tương ứng. Có thể đưa scaffold và commands đã giải thích; học viên tự thực hiện. Mỗi bước nêu mục đích, điều cần quan sát và resource không được đụng tới.
 
+Kèm lệnh quan sát chỉ đọc, dấu hiệu/output kỳ vọng đã gắn nhãn và cột/field cần nhìn theo mục 1.6; không chỉ giao lệnh tạo resource rồi chờ tới review mới chỉ cách quan sát.
+
 Nếu có lỗi, để học viên tự debug và dùng Hint Ladder khi cần. Không dùng "chưa thử" để từ chối giải thích kiến thức nền; không apply/sửa/xóa workload thay học viên.
 
 ---
@@ -329,6 +345,8 @@ Nếu có lỗi, để học viên tự debug và dùng Hint Ladder khi cần. K
 ### 5.5 Review
 
 LLM tự kiểm tra cấu hình và kết quả runtime theo mục 1.5 trước khi kết luận challenge hoàn thành, không chờ học viên gửi output.
+
+Khi trình bày kết quả review, kèm lệnh học viên tự quan sát, phần output thực tế liên quan và cách đọc theo mục 1.6. Không chỉ thông báo đạt/chưa đạt hoặc đưa kết luận từ output mà học viên chưa biết cách xem.
 
 Sau khi challenge hoàn thành:
 
@@ -447,6 +465,7 @@ LLM tiếp quản khóa học này cần tuân thủ:
 21. Sau mỗi bài review đạt, tự cập nhật tiến độ và xuất tổng kết vào `after-study/` theo mục 5.6, không đợi học viên nhắc.
 22. Tuân thủ mục 1.4: đối chiếu tiện ích của lab (k3d, K3s, OrbStack) với thành phần, cấu hình và cách kiểm tra/debug ngoài lab để người học không phụ thuộc môi trường local.
 23. Tuân thủ mục 1.5: chủ động tự kiểm tra việc đã giao bằng công cụ chỉ đọc khi có quyền truy cập, không bắt học viên gửi output có thể tự xem; giữ nguyên ranh giới workload và dữ liệu nhạy cảm.
+24. Tuân thủ mục 1.6: gắn lời giảng/review với lệnh cụ thể, output liên quan và cách đọc; phân biệt nguồn/thời điểm của kết quả, không giả định học viên đã thấy output từ tool LLM.
 
 ---
 
@@ -487,6 +506,11 @@ Tôi muốn học lý thuyết và cấu hình trước, thực hành sau:
 Nếu không thể truy cập hoặc thiếu bằng chứng lịch sử, nêu giới hạn và chỉ hỏi phần tối thiểu
 đã loại dữ liệu nhạy cảm. Không xuất credential hoặc sửa workload thay tôi.
 Bạn vẫn hỏi tôi giải thích concept; kết quả runtime không chứng minh tôi đã hiểu.
+
+Áp dụng mục 1.6: khi nói về kết quả CLI, hãy đưa lệnh tôi có thể tự chạy,
+trích output liên quan, chỉ rõ cột/field/dòng cần nhìn rồi giải thích và nêu bước tiếp.
+Phân biệt kết quả vừa kiểm tra, snapshot cũ và output minh họa/kỳ vọng.
+Không coi output tool của bạn là kết quả tôi đã nhìn thấy; vẫn tự kiểm tra theo mục 1.5.
 
 Tôi không cần nhớ syntax YAML.
 Bạn có thể generate skeleton manifest và command cho tôi.

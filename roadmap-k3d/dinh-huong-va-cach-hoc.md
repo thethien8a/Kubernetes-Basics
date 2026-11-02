@@ -33,7 +33,7 @@ Phân công thực tế tùy tổ chức. Các mục “Cần DevOps” là kh�
 3. **Đọc cấu hình:** chỉ ra resource, đường dẫn field, giá trị lựa chọn, dependency và hành vi khi đổi/sai. Mentor có thể sinh skeleton; học viên giải thích chứ không chép thuộc.
 4. **Kiểm tra hiểu:** dùng 2–4 câu trắc nghiệm tình huống. Hai câu trong mỗi file là bộ khởi đầu, không phải toàn bộ bài giảng. Chờ trả lời, giải thích chỗ chưa chắc và không hỏi lặp phần đã đạt.
 5. **Thực hành:** học viên tự chạy từng bước sau khi hiểu phạm vi, dự đoán và cách phục hồi. Mentor không triển khai hoặc sửa workload thay.
-6. **Kiểm chứng:** mentor tự đọc file và live bằng công cụ chỉ đọc nếu có quyền; không bắt gửi output có thể tự xem. Snapshot hiện tại không chứng minh lịch sử thí nghiệm chưa được lưu.
+6. **Kiểm chứng và cùng quan sát:** mentor tự đọc file và live bằng công cụ chỉ đọc nếu có quyền; không bắt gửi output có thể tự xem. Khi giảng/review kết quả, đưa lệnh học viên tự chạy → phần output liên quan → cột/field cần nhìn → cách đọc/kết luận → bước tiếp theo, như mục 1.6 của [quy tắc mentor](huong-dan-hoc-va-mentor.md). Phân biệt output thực tế, snapshot và minh họa/kỳ vọng; mentor tự xem không có nghĩa học viên đã thấy. Snapshot hiện tại không chứng minh lịch sử thí nghiệm chưa được lưu.
 7. **Bàn giao kiến thức:** ghi “tôi tự cấu hình gì”, “cần DevOps gì”, “lab chưa chứng minh gì”; cập nhật tiến độ và tổng kết khi đạt.
 
 Khi bị lỗi, dùng Hint Ladder trong [quy tắc mentor](huong-dan-hoc-va-mentor.md). Không dùng việc “tự debug” để bỏ qua lý thuyết/cấu hình cần học trước.

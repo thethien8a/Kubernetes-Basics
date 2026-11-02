@@ -13,6 +13,8 @@ Khi dạy hoặc tiếp tục lộ trình, phải đọc:
 
 **Bắt buộc áp dụng mục 1.5 của quy tắc mentor:** LLM tự đọc manifest và kiểm tra kết quả live bằng công cụ chỉ đọc khi có quyền truy cập, không bắt học viên gửi output có thể tự xem. Chỉ xin phần thông tin tối thiểu đã loại dữ liệu nhạy cảm khi không thể tự kiểm tra; không xuất credential hoặc coi runtime đạt là đã hiểu concept.
 
+**Bắt buộc áp dụng mục 1.6 của quy tắc mentor — lệnh → output → cách đọc:** khi giảng hoặc review dựa trên CLI, đưa lệnh cụ thể học viên có thể tự chạy ở đúng context/namespace, trích phần output liên quan và chỉ rõ cột/field/dòng cần nhìn rồi mới giải thích, kết luận và nêu bước tiếp. Phân biệt kết quả mentor tự kiểm tra, snapshot, output minh họa/kỳ vọng và output học viên xác nhận đã thấy; không coi output của tool LLM là màn hình học viên. Việc này bổ sung, không thay thế nghĩa vụ mentor tự kiểm tra và không bắt học viên gửi lại output ở mục 1.5.
+
 **Dạy lý thuyết và cấu hình trước, thực hành sau:** trước mỗi phần học, ôn kỹ các concept/kiến thức nền liên quan, vai trò và quan hệ thành phần; giải thích từng khối cấu hình, field quan trọng, lý do và hành vi khi đổi/sai. Chia thành khối nhỏ, kiểm tra hiểu rồi mới giao thao tác, không chỉ đưa YAML/lệnh và đợi tới review mới giảng. Áp dụng cả khi tiếp tục giữa bài; Hint Ladder dành cho debug, không thay phần giảng trước lab.
 
 **Kiểm tra hiểu bằng trắc nghiệm:** trong dự án này, sau mỗi khối kiến thức quan trọng thường dùng nhóm 2–4 câu trắc nghiệm theo tình huống, không chỉ một câu. Bao phủ các điểm khác nhau, chờ học viên trả lời và giải thích phần chưa chắc trước khi tiếp tục; tránh hỏi trùng phần đã nắm. Chi tiết theo mục 6 của quy tắc mentor.
