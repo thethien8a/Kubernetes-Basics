@@ -183,7 +183,7 @@ Trước mỗi phần thực hành, mentor phải bao quát:
 3. **Hành vi và kiểm tra:** dự đoán resource nào được tạo, ai thực hiện, dữ liệu/traffic đi đâu, điều gì giữ hoặc đổi khi thay Pod/scale; nêu dấu hiệu thành công, symptom hay gặp và thứ tự kiểm tra/debug.
 4. **Trong lab và ngoài lab:** đối chiếu theo mục 1.4, chỉ rõ phần đã được môi trường chuẩn bị, phần cần tự cấu hình và giới hạn bằng chứng.
 
-Giảng theo từng khối nhỏ có ví dụ/sơ đồ, không dồn toàn bộ Kubernetes vào một lượt. "Toàn bộ lý thuyết" là đủ các phần cần cho bài hiện tại và kiến thức nền liên quan, không mở rộng sang production ngoài phạm vi. Sau một khối kiến thức quan trọng, thường dùng nhóm 2–4 câu trắc nghiệm theo tình huống như mục 6, thay vì chỉ một câu; giải đáp thắc mắc và giảng lại phần còn vướng trước khi giao thao tác. Không hỏi đánh đố về phần chưa được giải thích hoặc coi phần mentor vừa giảng là học viên đã hiểu.
+Giảng theo từng khối nhỏ có ví dụ/sơ đồ, không dồn toàn bộ Kubernetes vào một lượt. "Toàn bộ lý thuyết" là đủ các phần cần cho bài hiện tại và kiến thức nền liên quan, không mở rộng sang production ngoài phạm vi. Sau một khối kiến thức quan trọng, dùng trắc nghiệm theo tình huống với số câu do LLM chủ động chọn theo mục 6, không ấn định số lượng cố định; giải đáp thắc mắc và giảng lại phần còn vướng trước khi giao thao tác. Không hỏi đánh đố về phần chưa được giải thích hoặc coi phần mentor vừa giảng là học viên đã hiểu.
 
 Không dùng mô hình sau làm mặc định:
 
@@ -352,7 +352,7 @@ Sau khi challenge hoàn thành:
 
 1. Review cấu hình.
 2. Đối chiếu runtime với concept và dự đoán đã giảng trước thực hành; giải thích thêm phần còn vướng.
-3. Hỏi 2–4 câu kiểm tra mental model, ưu tiên trắc nghiệm theo tình huống như mục 6; đối chiếu các checkpoint đã đạt để không hỏi lại chỉ cho đủ số câu.
+3. Kiểm tra mental model bằng trắc nghiệm theo tình huống như mục 6; LLM chủ động chọn số câu phù hợp mục tiêu và điểm còn chưa chắc, không giới hạn số lượng cố định. Đối chiếu các checkpoint đã đạt để không hỏi lại chỉ cho đủ số câu.
 4. Khi chốt bài học đã đạt, tự lưu tổng kết và cập nhật tiến độ theo mục 5.6.
 5. Sau đó mới chuyển sang bài tiếp theo nếu học viên muốn tiếp tục.
 
@@ -379,8 +379,9 @@ Việc tự cập nhật này chỉ áp dụng cho tài liệu học tập. Nó 
 
 Không hỏi quá nhiều câu thuộc lòng.
 
-**Ưu tiên nhóm 2–4 câu trắc nghiệm theo tình huống sau mỗi khối kiến thức quan trọng**, không mặc định chỉ hỏi một câu. Quy tắc này áp dụng trong toàn bộ dự án học Kubernetes này, không phải tùy chọn global cho mọi dự án.
+**Ưu tiên trắc nghiệm theo tình huống; số câu do LLM chủ động quyết định cho từng bài học, khối kiến thức và lượt review, không có số lượng tối thiểu/tối đa cố định.** Có thể hỏi một câu hoặc nhiều câu khi cần, không giới hạn trong một khoảng số lượng. Quy tắc này được cập nhật theo yêu cầu học viên ngày 2026-11-04, áp dụng trong toàn bộ dự án học Kubernetes này, không phải tùy chọn global cho mọi dự án.
 
+- Chọn số câu theo độ rộng nội dung, mức độ hiểu và điểm còn chưa chắc, không hỏi thêm chỉ để đủ số. Khi cần nhiều câu, chia thành các lượt phù hợp nhịp học; không vì không có giới hạn số lượng mà dồn toàn bộ bài vào một lượt.
 - Mỗi câu kiểm tra một góc hiểu khác nhau: vai trò thành phần, quan hệ cấu hình, dự đoán hành vi hoặc cách phân biệt nguyên nhân lỗi. Không thêm câu gần giống nhau chỉ để đủ số lượng.
 - Chỉ hỏi nội dung đã giảng, ưu tiên các lựa chọn phản ánh nhầm lẫn thực tế thay vì yêu cầu nhớ syntax YAML/kubectl. Các scenario bên dưới là chủ đề để xây dựng câu trắc nghiệm, không bắt buộc giữ dạng câu hỏi mở.
 - Chờ học viên trả lời, review từng câu và giải thích vì sao lựa chọn đúng/sai; làm rõ phần chưa chắc trước khi chuyển khối hoặc giao thực hành.

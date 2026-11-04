@@ -8,6 +8,7 @@
 - Là Data Engineer sử dụng nền tảng do DevOps/platform cung cấp, không học để trở thành người quản trị cluster.
 - Không yêu cầu tự viết YAML từ trí nhớ; phải đọc hiểu cấu hình và biết cần yêu cầu thêm khả năng nào của cluster.
 - Không deadline. Chia nhỏ và học đến khi hiểu, không chạy theo số buổi.
+- Số câu trắc nghiệm do LLM chủ động chọn theo từng bài, khối kiến thức và lượt review; không có số lượng tối thiểu/tối đa cố định. Có thể hỏi một câu hoặc nhiều câu tùy nhu cầu kiểm tra hiểu, không hỏi thêm hoặc hỏi lặp chỉ để đủ số (cập nhật 2026-11-04).
 - Giữ khóa này là nơi duy nhất ghi tiến độ; lộ trình OrbStack cũ đã học xong và được xoá, tiến độ, scaffold và tổng kết mới nằm riêng trong `roadmap-k3d/`.
 
 ## Tiêu chuẩn đầu ra
@@ -31,7 +32,7 @@ Phân công thực tế tùy tổ chức. Các mục “Cần DevOps” là kh�
 1. **Nêu tình huống và đầu ra:** chỉ chọn một vấn đề đang cần hiểu.
 2. **Giảng lý thuyết:** vai trò, quan hệ, vòng đời và giới hạn; ôn kiến thức nền có liên quan mà không bắt học lại cả khóa cũ.
 3. **Đọc cấu hình:** chỉ ra resource, đường dẫn field, giá trị lựa chọn, dependency và hành vi khi đổi/sai. Mentor có thể sinh skeleton; học viên giải thích chứ không chép thuộc.
-4. **Kiểm tra hiểu:** dùng 2–4 câu trắc nghiệm tình huống. Hai câu trong mỗi file là bộ khởi đầu, không phải toàn bộ bài giảng. Chờ trả lời, giải thích chỗ chưa chắc và không hỏi lặp phần đã đạt.
+4. **Kiểm tra hiểu:** dùng trắc nghiệm tình huống, số câu do LLM chủ động chọn theo nội dung và mức độ hiểu, không giới hạn số lượng cố định. Các câu trong mỗi file bài học là ví dụ khởi đầu, không quyết định số lượng phải hỏi. Chờ trả lời, giải thích chỗ chưa chắc và không hỏi lặp phần đã đạt; nếu cần nhiều câu thì chia lượt theo nhịp học.
 5. **Thực hành:** học viên tự chạy từng bước sau khi hiểu phạm vi, dự đoán và cách phục hồi. Mentor không triển khai hoặc sửa workload thay.
 6. **Kiểm chứng và cùng quan sát:** mentor tự đọc file và live bằng công cụ chỉ đọc nếu có quyền; không bắt gửi output có thể tự xem. Khi giảng/review kết quả, đưa lệnh học viên tự chạy → phần output liên quan → cột/field cần nhìn → cách đọc/kết luận → bước tiếp theo, như mục 1.6 của [quy tắc mentor](huong-dan-hoc-va-mentor.md). Phân biệt output thực tế, snapshot và minh họa/kỳ vọng; mentor tự xem không có nghĩa học viên đã thấy. Snapshot hiện tại không chứng minh lịch sử thí nghiệm chưa được lưu.
 7. **Bàn giao kiến thức:** ghi “tôi tự cấu hình gì”, “cần DevOps gì”, “lab chưa chứng minh gì”; cập nhật tiến độ và tổng kết khi đạt.

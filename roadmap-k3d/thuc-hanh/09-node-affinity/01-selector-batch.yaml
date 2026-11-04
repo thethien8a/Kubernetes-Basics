@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: placement-batch
+  namespace: de-lab
+  labels:
+    team: data
+    environment: lab
+    lesson: "09"
+    app: placement-lab
+spec:
+  nodeSelector:
+    lab-pool: batch
+    lab-tier: memory
+  restartPolicy: Always
+  containers:
+    - name: worker
+      image: busybox:1.37.0
+      imagePullPolicy: IfNotPresent
+      command: ["sleep", "3600"]
+      resources:
+        requests:
+          cpu: 25m
+          memory: 32Mi
+        limits:
+          cpu: 100m
+          memory: 64Mi

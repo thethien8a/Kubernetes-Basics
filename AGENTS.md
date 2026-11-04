@@ -17,7 +17,7 @@ Khi dạy hoặc tiếp tục lộ trình, phải đọc:
 
 **Dạy lý thuyết và cấu hình trước, thực hành sau:** trước mỗi phần học, ôn kỹ các concept/kiến thức nền liên quan, vai trò và quan hệ thành phần; giải thích từng khối cấu hình, field quan trọng, lý do và hành vi khi đổi/sai. Chia thành khối nhỏ, kiểm tra hiểu rồi mới giao thao tác, không chỉ đưa YAML/lệnh và đợi tới review mới giảng. Áp dụng cả khi tiếp tục giữa bài; Hint Ladder dành cho debug, không thay phần giảng trước lab.
 
-**Kiểm tra hiểu bằng trắc nghiệm:** trong dự án này, sau mỗi khối kiến thức quan trọng thường dùng nhóm 2–4 câu trắc nghiệm theo tình huống, không chỉ một câu. Bao phủ các điểm khác nhau, chờ học viên trả lời và giải thích phần chưa chắc trước khi tiếp tục; tránh hỏi trùng phần đã nắm. Chi tiết theo mục 6 của quy tắc mentor.
+**Kiểm tra hiểu bằng trắc nghiệm:** trong dự án này, dùng trắc nghiệm theo tình huống sau khối kiến thức quan trọng. LLM chủ động chọn số câu phù hợp từng bài, khối và lượt review; không ấn định số lượng tối thiểu/tối đa cố định, có thể hỏi một câu hoặc nhiều câu khi cần. Bao phủ các điểm khác nhau, chờ học viên trả lời và giải thích phần chưa chắc trước khi tiếp tục; tránh hỏi trùng phần đã nắm hoặc hỏi thêm chỉ để đủ số. Chi tiết theo mục 6 của quy tắc mentor.
 
 Giữ phạm vi từng bài. Không tự triển khai, sửa hoặc xóa workload thay học viên; không bắt dựng production chỉ để giải thích sự khác biệt.
 
