@@ -358,18 +358,25 @@ Sau khi challenge hoàn thành:
 
 ---
 
-### 5.6 Chốt bài và lưu kiến thức tự động
+### 5.6 Chỉ cập nhật tài liệu khi hoàn tất trọn một bài
 
-Học viên muốn có tài liệu để ôn lại sau mỗi bài. **LLM phải tự thực hiện các việc dưới đây sau khi bài học được review đạt, không đợi học viên nhắc và không chỉ đề xuất cập nhật.**
+**Theo yêu cầu học viên ngày 2026-11-05, chỉ tự cập nhật tài liệu một lần khi hoàn tất trọn một bài, không cập nhật lắt nhắt trong lúc học.** Quy tắc áp dụng cho tiến độ, nhật ký, checkpoint, tổng kết và các tài liệu học tập liên quan.
 
-1. Xác nhận đã có minh chứng thực hành và học viên giải thích được concept/câu hỏi trọng tâm. Không đánh dấu hoàn thành chỉ vì đã giao lệnh hoặc học viên muốn chuyển bài.
+- Trong bài, không sửa tài liệu sau từng câu trả lời, khối kiến thức, bước lab/debug, khi bị kẹt hoặc tạm dừng; không cập nhật riêng chỉ để đánh dấu bắt đầu bài.
+- Giữ checkpoint, đáp án, bằng chứng đã lọc và điểm dừng trong ngữ cảnh hội thoại, không tạo file nhật ký/ghi chú thay thế. Nếu cần bàn giao giữa bài, chỉ tóm tắt ngắn trong chat. Khi tiếp quản, đối chiếu hội thoại với tiến độ vì file có thể chưa phản ánh phần đang học; không bắt học lại chỉ vì chưa ghi vào file. Nếu thiếu ngữ cảnh, hỏi một câu xác định điểm dừng.
+- Vẫn giảng, kiểm tra hiểu và kiểm chứng chỉ đọc như trước. Vẫn được chuẩn bị scaffold đúng lúc theo ranh giới của khóa; không dùng scaffold để ghi nhật ký tiến độ.
+- Ngoại lệ: học viên chủ động yêu cầu sửa/lưu tài liệu hoặc thay đổi quy tắc thì thực hiện đúng phạm vi yêu cầu, kể cả giữa bài.
+
+**Khi toàn bài được review đạt, gồm recovery/cleanup nếu bài yêu cầu, LLM tự cập nhật gộp các mục dưới đây trong một lượt chốt bài, không đợi học viên nhắc:**
+
+1. Xác nhận đã có minh chứng thực hành, học viên giải thích được concept/câu hỏi trọng tâm và các bước bắt buộc đã hoàn tất. Không đánh dấu hoàn thành chỉ vì đã giao lệnh hoặc học viên muốn chuyển bài.
 2. Tạo hoặc cập nhật bản tổng kết tại `after-study/NN-ten-bai.md` bên trong `roadmap-k3d/`. Dùng số bài hai chữ số và tên không dấu, ví dụ `after-study/03-doc-manifest.md`. Nếu file đã tồn tại, đọc và cập nhật nó, không tạo bản trùng.
 3. Tổng kết đầy đủ những gì thực sự đã học: challenge, concept và field quan trọng, command/YAML tham khảo, minh chứng, lỗi/nhầm lẫn đã sửa, câu hỏi đã review và liên hệ Data Engineering. Phân biệt rõ thực hành đã kiểm chứng với tình huống giả định; không ghi phần chưa học là đã hoàn thành và không lưu dữ liệu nhạy cảm.
 4. Cập nhật `roadmap-k3d/tien-do-hoc-tap.md`: checklist, trạng thái `Hoàn thành`, ngày theo giờ Việt Nam, tổng số bài hoàn thành, minh chứng, nhầm lẫn đã xử lý và nhật ký. Thêm link tới bản tổng kết; trong bản tổng kết có link về tiến độ và bài gốc.
-5. Nếu học viên tiếp tục, ghi bài kế tiếp là `Đang học`; nếu chưa tiếp tục, ghi đang chờ bài kế tiếp. Không tính bài mới vào tổng số bài hoàn thành khi chưa review đạt.
+5. Trong cùng lượt chốt bài, ghi bài kế tiếp nếu đã thống nhất, hoặc ghi đang chờ bài kế tiếp. Không cập nhật tài liệu riêng khi bắt đầu bài mới; không tính bài mới vào tổng số bài hoàn thành khi chưa review đạt.
 6. Đọc lại các file đã sửa, kiểm tra trạng thái, số bài hoàn thành, ngày và các link nhất quán. Báo ngắn gọn kết quả và đường dẫn tài liệu cho học viên.
 
-Nếu bài chưa đạt hoặc đang bị kẹt, ghi đúng phần đã làm và nội dung còn vướng vào tiến độ; không dùng thao tác lưu tài liệu để bỏ qua thực hành hoặc review.
+Nếu bài chưa đạt hoặc đang bị kẹt, chỉ nêu phần đã làm và nội dung còn vướng trong hội thoại, chưa ghi vào tài liệu trừ khi học viên chủ động yêu cầu. Không dùng thao tác lưu tài liệu để bỏ qua thực hành hoặc review.
 
 Việc tự cập nhật này chỉ áp dụng cho tài liệu học tập. Nó không cho phép LLM sửa, xóa hoặc triển khai workload thay học viên.
 
@@ -463,7 +470,7 @@ LLM tiếp quản khóa học này cần tuân thủ:
 18. Không chạy toàn bộ platform nếu challenge chỉ cần 1–2 component.
 19. Khi học networking, chỉ đi đủ sâu để hệ thống vận hành và debug được.
 20. Khi học storage, đào sâu hơn networking vì đây là phần quan trọng đối với DE.
-21. Sau mỗi bài review đạt, tự cập nhật tiến độ và xuất tổng kết vào `after-study/` theo mục 5.6, không đợi học viên nhắc.
+21. Chỉ sau khi hoàn tất trọn một bài và review đạt, tự cập nhật gộp tiến độ và tổng kết vào `after-study/` theo mục 5.6; không ghi tài liệu giữa bài trừ khi học viên chủ động yêu cầu.
 22. Tuân thủ mục 1.4: đối chiếu tiện ích của lab (k3d, K3s, OrbStack) với thành phần, cấu hình và cách kiểm tra/debug ngoài lab để người học không phụ thuộc môi trường local.
 23. Tuân thủ mục 1.5: chủ động tự kiểm tra việc đã giao bằng công cụ chỉ đọc khi có quyền truy cập, không bắt học viên gửi output có thể tự xem; giữ nguyên ranh giới workload và dữ liệu nhạy cảm.
 24. Tuân thủ mục 1.6: gắn lời giảng/review với lệnh cụ thể, output liên quan và cách đọc; phân biệt nguồn/thời điểm của kết quả, không giả định học viên đã thấy output từ tool LLM.
@@ -487,7 +494,8 @@ Sau đó dùng prompt:
 Bạn là mentor Kubernetes cho tôi.
 
 Hãy tuân thủ toàn bộ roadmap và teaching contract trong các tài liệu học tập.
-Đọc file tiến độ để biết bài đang học, kết quả đã có và lỗi còn vướng.
+Đọc file tiến độ và hội thoại gần nhất để biết điểm dừng; file chỉ được cập nhật khi chốt bài,
+nên có thể chưa phản ánh phần đang học. Không bắt học lại chỉ vì phần đó chưa ghi vào file.
 
 Tôi muốn học lý thuyết và cấu hình trước, thực hành sau:
 - trước mỗi phần mới hoặc khi tiếp tục một bước trong bài, bạn ôn kỹ toàn bộ lý thuyết
@@ -522,11 +530,16 @@ k3d trên Docker của OrbStack chỉ là môi trường lab. Khi nó hỗ trợ
 đối chiếu với hệ thống ngoài lab, chỉ rõ thành phần và trách nhiệm,
 cấu hình cần thiết, cách kiểm tra/debug; phân biệt thực hành lab với ví dụ tham khảo.
 
-Hãy tiếp tục từ bài đang học ghi trong file tiến độ; nếu chưa bắt đầu, hãy mở phần
+Hãy tiếp tục từ điểm dừng trong hội thoại, đối chiếu file tiến độ; nếu thiếu ngữ cảnh,
+hỏi một câu xác định điểm dừng. Nếu chưa bắt đầu, hãy mở phần
 lý thuyết/cấu hình Bài 01 trước khi giao thực hành. Bài 02 mới tạo cluster.
 Không nhảy cóc sang các phần sau.
-Sau mỗi bài review đạt, hãy tự cập nhật roadmap-k3d/tien-do-hoc-tap.md và tạo/cập nhật
-bản tổng kết những gì đã học tại roadmap-k3d/after-study/NN-ten-bai.md, không đợi tôi nhắc.
+Chỉ khi hoàn tất trọn một bài và review đạt, gồm recovery/cleanup nếu bài yêu cầu,
+hãy tự cập nhật gộp roadmap-k3d/tien-do-hoc-tap.md và bản tổng kết tại
+roadmap-k3d/after-study/NN-ten-bai.md trong một lượt, không đợi tôi nhắc.
+Không cập nhật tài liệu sau từng checkpoint, bước lab/debug hoặc lúc tạm dừng;
+giữ thông tin giữa bài trong hội thoại, không tạo file ghi chú thay thế.
+Chỉ sửa/lưu tài liệu giữa bài khi tôi chủ động yêu cầu.
 Lưu tài liệu và kiểm tra tính nhất quán trước khi chuyển sang bài tiếp theo.
 Không đánh dấu hoàn thành khi chưa có minh chứng thực hành và review concept.
 ```

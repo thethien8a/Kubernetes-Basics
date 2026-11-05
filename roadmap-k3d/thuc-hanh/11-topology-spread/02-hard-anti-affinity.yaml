@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: anti-affinity-lab
+  namespace: de-lab
+  labels:
+    team: data
+    environment: lab
+    lesson: "11"
+    app: anti-affinity-lab
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: anti-affinity-lab
+      lesson: "11"
+  template:
+    metadata:
+      labels:
+        team: data
+        environment: lab
+        lesson: "11"
+        app: anti-affinity-lab
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: In
+                    values:
+                      - k3d-de-k3d-agent-0
+                      - k3d-de-k3d-agent-1
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchLabels:
+                  app: anti-affinity-lab
+                  lesson: "11"
+              topologyKey: kubernetes.io/hostname
+      restartPolicy: Always
+      containers:
+        - name: worker
+          image: busybox:1.37.0@sha256:a7dbc319b1438115a207e11930dc4bb3e643dcb3ec0bdd694bb36cd8fad289ec
+          imagePullPolicy: IfNotPresent
+          command: ["sleep", "3600"]
+          resources:
+            requests:
+              cpu: 25m
+              memory: 32Mi
+            limits:
+              cpu: 100m
+              memory: 64Mi

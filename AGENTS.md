@@ -19,6 +19,8 @@ Khi dạy hoặc tiếp tục lộ trình, phải đọc:
 
 **Kiểm tra hiểu bằng trắc nghiệm:** trong dự án này, dùng trắc nghiệm theo tình huống sau khối kiến thức quan trọng. LLM chủ động chọn số câu phù hợp từng bài, khối và lượt review; không ấn định số lượng tối thiểu/tối đa cố định, có thể hỏi một câu hoặc nhiều câu khi cần. Bao phủ các điểm khác nhau, chờ học viên trả lời và giải thích phần chưa chắc trước khi tiếp tục; tránh hỏi trùng phần đã nắm hoặc hỏi thêm chỉ để đủ số. Chi tiết theo mục 6 của quy tắc mentor.
 
+**Chỉ cập nhật tài liệu khi hoàn tất trọn một bài (yêu cầu ngày 2026-11-05):** không tự ghi tiến độ, nhật ký, checkpoint hoặc tổng kết sau từng câu trả lời, khối kiến thức, bước lab/debug hay lúc tạm dừng. Giữ thông tin giữa bài trong hội thoại, không tạo file ghi chú thay thế. Khi toàn bài review đạt, gồm recovery/cleanup nếu bài yêu cầu, mới cập nhật gộp tiến độ và tổng kết một lần theo mục 5.6 của quy tắc mentor. Ngoại lệ là học viên chủ động yêu cầu sửa/lưu tài liệu hoặc đổi quy tắc. Việc chuẩn bị scaffold đúng lúc và kiểm tra chỉ đọc vẫn thực hiện như trước.
+
 Giữ phạm vi từng bài. Không tự triển khai, sửa hoặc xóa workload thay học viên; không bắt dựng production chỉ để giải thích sự khác biệt.
 
 Lộ trình OrbStack cũ và toàn bộ tài nguyên của nó (tài liệu, tổng kết, manifest, script, fixture) đã được xoá khỏi repo ngày 2026-10-28. Khóa đang học là `roadmap-k3d/`.

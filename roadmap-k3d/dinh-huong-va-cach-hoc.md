@@ -10,6 +10,7 @@
 - Không deadline. Chia nhỏ và học đến khi hiểu, không chạy theo số buổi.
 - Số câu trắc nghiệm do LLM chủ động chọn theo từng bài, khối kiến thức và lượt review; không có số lượng tối thiểu/tối đa cố định. Có thể hỏi một câu hoặc nhiều câu tùy nhu cầu kiểm tra hiểu, không hỏi thêm hoặc hỏi lặp chỉ để đủ số (cập nhật 2026-11-04).
 - Giữ khóa này là nơi duy nhất ghi tiến độ; lộ trình OrbStack cũ đã học xong và được xoá, tiến độ, scaffold và tổng kết mới nằm riêng trong `roadmap-k3d/`.
+- Chỉ tự cập nhật gộp tài liệu khi hoàn tất trọn một bài và review đạt; không ghi tiến độ/nhật ký sau từng checkpoint, bước lab/debug hoặc lúc tạm dừng. Giữ thông tin giữa bài trong hội thoại, trừ khi học viên chủ động yêu cầu sửa/lưu tài liệu (cập nhật 2026-11-05).
 
 ## Tiêu chuẩn đầu ra
 
@@ -62,6 +63,6 @@ Mỗi bài có tiêu chí riêng. Bài 01 chưa cần cluster, bằng chứng l�
 
 ## Ghi chép sau bài
 
-Chỉ tạo `after-study/NN-ten-bai.md` bên trong khóa mới khi có nội dung thật. Bản tổng kết gồm: điều đã hiểu, bảng field quan trọng, cấu hình đã chọn và lý do, expected/observed, lỗi đã xử lý, câu hỏi đã đạt/còn vướng, yêu cầu DevOps và giới hạn. Chèn link tới bài và tiến độ. Không tạo 32 bản tổng kết rỗng hoặc đánh dấu hoàn thành trước.
+Chỉ tạo/cập nhật `after-study/NN-ten-bai.md` và tiến độ trong một lượt chốt khi toàn bài review đạt, gồm recovery/cleanup nếu bài yêu cầu, theo mục 5.6 của [quy tắc mentor](huong-dan-hoc-va-mentor.md). Bản tổng kết gồm: điều đã hiểu, bảng field quan trọng, cấu hình đã chọn và lý do, expected/observed, lỗi đã xử lý, câu hỏi đã đạt/còn vướng, yêu cầu DevOps và giới hạn. Chèn link tới bài và tiến độ. Không tạo 32 bản tổng kết rỗng hoặc đánh dấu hoàn thành trước.
 
 Tài liệu hiện là kế hoạch có nguồn tham chiếu. Trước thực hành, mentor chọn và kiểm phiên bản tương thích, giải thích scaffold rồi mới giao lệnh; không lấy việc tài liệu đã được soạn làm bằng chứng lab chạy được.
