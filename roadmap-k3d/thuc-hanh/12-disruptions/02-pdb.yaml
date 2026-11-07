@@ -1,0 +1,16 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: disruption-budget
+  namespace: de-lab
+  labels:
+    team: data
+    environment: lab
+    lesson: "12"
+    app: disruption-lab
+spec:
+  minAvailable: 2
+  selector:
+    matchLabels:
+      app: disruption-lab
+      lesson: "12"

@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: disruption-lab
+  namespace: de-lab
+  labels:
+    team: data
+    environment: lab
+    lesson: "12"
+    app: disruption-lab
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: disruption-lab
+      lesson: "12"
+  template:
+    metadata:
+      labels:
+        team: data
+        environment: lab
+        lesson: "12"
+        app: disruption-lab
+    spec:
+      automountServiceAccountToken: false
+      terminationGracePeriodSeconds: 10
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: In
+                    values:
+                      - k3d-de-k3d-agent-0
+                      - k3d-de-k3d-agent-1
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app: disruption-lab
+                    lesson: "12"
+                topologyKey: kubernetes.io/hostname
+      restartPolicy: Always
+      containers:
+        - name: worker
+          image: busybox:1.37.0@sha256:a7dbc319b1438115a207e11930dc4bb3e643dcb3ec0bdd694bb36cd8fad289ec
+          imagePullPolicy: IfNotPresent
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              trap 'exit 0' TERM INT
+              while :; do
+                sleep 5 &
+                wait "$!"
+              done
+          resources:
+            requests:
+              cpu: 25m
+              memory: 32Mi
+            limits:
+              cpu: 100m
+              memory: 64Mi
