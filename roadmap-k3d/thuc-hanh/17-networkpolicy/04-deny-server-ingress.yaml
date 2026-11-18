@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: isolate-server-ingress
+  namespace: lesson17-netpol
+  labels:
+    team: data
+    environment: lab
+    lesson: "17"
+spec:
+  podSelector:
+    matchLabels:
+      app: server
+  policyTypes:
+    - Ingress
+  ingress: []

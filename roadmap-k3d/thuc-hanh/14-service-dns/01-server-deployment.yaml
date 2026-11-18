@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-dns-server
+  namespace: de-lab
+  labels:
+    team: data
+    environment: lab
+    lesson: "14"
+    app: service-dns
+    role: server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      lesson: "14"
+      app: service-dns
+      role: server
+  template:
+    metadata:
+      labels:
+        team: data
+        environment: lab
+        lesson: "14"
+        app: service-dns
+        role: server
+    spec:
+      automountServiceAccountToken: false
+      enableServiceLinks: false
+      hostNetwork: false
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 5
+      containers:
+        - name: http
+          image: busybox:1.37.0@sha256:a7dbc319b1438115a207e11930dc4bb3e643dcb3ec0bdd694bb36cd8fad289ec
+          imagePullPolicy: IfNotPresent
+          command: ["/bin/sh", "-ec"]
+          args:
+            - |
+              mkdir -p /www
+              printf '%s\n' 'lesson14-service-dns-ok' > /www/index.html
+              printf '%s\n' 'ready' > /www/ready
+              exec httpd -f -p 0.0.0.0:8080 -h /www
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: http
+            periodSeconds: 2
+            timeoutSeconds: 1
+            failureThreshold: 1
+            successThreshold: 1
+          resources:
+            requests:
+              cpu: 25m
+              memory: 32Mi
+            limits:
+              cpu: 100m
+              memory: 64Mi

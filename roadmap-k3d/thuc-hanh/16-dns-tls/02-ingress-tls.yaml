@@ -1,0 +1,30 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: lesson16-web
+  namespace: de-lab
+  labels:
+    team: data
+    environment: lab
+    lesson: "16"
+    app: ingress-tls-demo
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
+spec:
+  ingressClassName: traefik
+  tls:
+    - hosts:
+        - lesson16.test
+      secretName: lesson16-tls
+  rules:
+    - host: lesson16.test
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: service-dns-svc
+                port:
+                  number: 80

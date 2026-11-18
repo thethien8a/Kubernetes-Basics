@@ -1,0 +1,18 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: k3d-gateway
+  # Dat Gateway tai kube-system dai dien cho ha tang chung do Cluster Admin quan tri
+  namespace: kube-system
+spec:
+  # Chi dinh dung GatewayClass traefik da duoc controller chap nhan o Milestone 1
+  gatewayClassName: traefik
+  listeners:
+  - name: web
+    protocol: HTTP
+    # Cong 8000 khop voi entrypoint web noi bo cua container Traefik trong k3d
+    port: 8000
+    # Cho phep cac HTTPRoute tu moi namespace (nhu de-lab) duoc phep attach vao Gateway nay
+    allowedRoutes:
+      namespaces:
+        from: All

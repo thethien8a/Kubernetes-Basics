@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: lesson15-web
+  namespace: de-lab
+  labels:
+    team: data
+    environment: lab
+    lesson: "15"
+    app: ingress-demo
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: lesson15.test
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: service-dns-svc
+                port:
+                  number: 80

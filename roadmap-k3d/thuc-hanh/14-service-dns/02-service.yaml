@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-dns-svc
+  namespace: de-lab
+  labels:
+    team: data
+    environment: lab
+    lesson: "14"
+    app: service-dns
+spec:
+  type: ClusterIP
+  selector:
+    lesson: "14"
+    app: service-dns
+    role: server
+  ports:
+    - name: web
+      protocol: TCP
+      port: 80
+      targetPort: http

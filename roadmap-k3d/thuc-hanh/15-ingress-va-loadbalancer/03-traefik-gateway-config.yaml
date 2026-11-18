@@ -1,0 +1,20 @@
+apiVersion: helm.cattle.io/v1
+kind: HelmChartConfig
+metadata:
+  name: traefik
+  namespace: kube-system
+spec:
+  valuesContent: |-
+    # Bat provider Kubernetes Gateway API trong Traefik
+    providers:
+      kubernetesGateway:
+        enabled: true
+    experimental:
+      kubernetesGateway:
+        enabled: true
+    # Tu dong dang ky GatewayClass traefik de cac Gateway co the tham chieu
+    gatewayClass:
+      enabled: true
+    # Dat false de hoc vien tu tay tao va quan ly Gateway o Milestone 2
+    gateway:
+      enabled: false

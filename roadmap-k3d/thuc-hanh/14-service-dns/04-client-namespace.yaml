@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: de-client
+  labels:
+    team: data
+    environment: lab
+    lesson: "14"

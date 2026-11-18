@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: netpol-server
+  namespace: lesson17-netpol
+  labels:
+    team: data
+    environment: lab
+    lesson: "17"
+    app: server
+spec:
+  type: ClusterIP
+  selector:
+    lesson: "17"
+    app: server
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8080
+      protocol: TCP

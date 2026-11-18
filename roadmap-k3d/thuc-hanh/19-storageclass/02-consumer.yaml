@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: storageclass-consumer
+  namespace: de-lab
+  labels:
+    team: data
+    environment: lab
+    lesson: "19"
+    app: storageclass-lab
+spec:
+  automountServiceAccountToken: false
+  restartPolicy: Always
+  terminationGracePeriodSeconds: 5
+  nodeSelector:
+    kubernetes.io/hostname: k3d-de-k3d-agent-0
+  containers:
+    - name: worker
+      image: busybox:1.37.0@sha256:a7dbc319b1438115a207e11930dc4bb3e643dcb3ec0bdd694bb36cd8fad289ec
+      imagePullPolicy: IfNotPresent
+      command: ["sleep", "86400"]
+      resources:
+        requests:
+          cpu: 25m
+          memory: 32Mi
+        limits:
+          cpu: 100m
+          memory: 64Mi
+      volumeMounts:
+        - name: output
+          mountPath: /data
+  volumes:
+    - name: output
+      persistentVolumeClaim:
+        claimName: storageclass-data

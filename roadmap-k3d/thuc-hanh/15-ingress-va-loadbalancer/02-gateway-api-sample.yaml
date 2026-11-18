@@ -1,0 +1,51 @@
+# Gateway API manifest mau tham khao dua tren ca thuc te (ddlh-sep)
+# Khong ap dung vao k3d neu cluster chua cai Gateway API CRDs va Controller
+
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: ddae-gateway
+  namespace: ddae-system
+spec:
+  # GatewayClass xac dinh controller ha tang se thuc thi (vi du: istio, envoy)
+  gatewayClassName: istio
+  listeners:
+  - name: https
+    port: 443
+    protocol: HTTPS
+    # Cho phep cac HTTPRoute tu tat ca cac namespace khac co the dang ky vao Gateway nay
+    allowedRoutes:
+      namespaces:
+        from: All
+    tls:
+      mode: Terminate
+      certificateRefs:
+      - group: ""
+        kind: Secret
+        name: ddae-gateway-tls
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: dv-sep-nginx-service-http
+  # Route nam tai namespace cua ung dung, tach biet hoan toan voi namespace cua Gateway
+  namespace: ddae
+spec:
+  # Tham chieu den Gateway chung da duoc ha tang/DevOps dung san o ddae-system
+  parentRefs:
+  - group: gateway.networking.k8s.io
+    kind: Gateway
+    name: ddae-gateway
+    namespace: ddae-system
+  hostnames:
+  - "ddlh-sep.amigo.lab"
+  rules:
+  # Dinh tuyen tat ca cac request co path bat dau bang / vao Service backend
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
+    backendRefs:
+    - name: dv-sep-nginx-service
+      port: 443
+      weight: 1

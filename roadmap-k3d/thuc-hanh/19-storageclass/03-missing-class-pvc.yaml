@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: storageclass-missing
+  namespace: de-lab
+  labels:
+    team: data
+    environment: lab
+    lesson: "19"
+    app: storageclass-lab
+spec:
+  storageClassName: lesson19-no-such-class
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 128Mi

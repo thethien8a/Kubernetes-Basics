@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: lesson17-netpol
+  labels:
+    team: data
+    environment: lab
+    lesson: "17"

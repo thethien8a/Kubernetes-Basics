@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-approved-client
+  namespace: lesson17-netpol
+  labels:
+    team: data
+    environment: lab
+    lesson: "17"
+spec:
+  podSelector:
+    matchLabels:
+      app: server
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: client
+              access: allowed
+      ports:
+        - protocol: TCP
+          port: 8080
