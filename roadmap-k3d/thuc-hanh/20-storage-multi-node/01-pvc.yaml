@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: lesson20-data
+  namespace: de-lab
+  labels:
+    team: data
+    environment: lab
+    lesson: "20"
+    app: storage-multi-node
+spec:
+  storageClassName: local-path
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 128Mi
