@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: lesson24-reader
+  namespace: de-lab
+  labels:
+    lesson: "24"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: lesson24-etl-settings
+  namespace: de-lab
+  labels:
+    lesson: "24"
+data:
+  batch-size: "240"
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: lesson24-read-settings
+  namespace: de-lab
+  labels:
+    lesson: "24"
+rules:
+  - apiGroups: [""]
+    resources: [configmaps]
+    resourceNames: [lesson24-etl-settings]
+    verbs: [get]

@@ -1,0 +1,49 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: lesson22-writer
+  namespace: de-lab
+  labels:
+    team: data
+    environment: lab
+    lesson: "22"
+    app: backup-restore
+spec:
+  completions: 1
+  parallelism: 1
+  backoffLimit: 0
+  activeDeadlineSeconds: 120
+  template:
+    metadata:
+      labels:
+        team: data
+        environment: lab
+        lesson: "22"
+        app: backup-restore
+    spec:
+      automountServiceAccountToken: false
+      restartPolicy: Never
+      containers:
+        - name: writer
+          image: busybox:1.37.0@sha256:a7dbc319b1438115a207e11930dc4bb3e643dcb3ec0bdd694bb36cd8fad289ec
+          imagePullPolicy: IfNotPresent
+          command: ["/bin/sh", "-ec"]
+          args:
+            - |
+              mkdir /source/dataset
+              printf '%s\n' 'id,status' '1,ok' '2,ok' > /source/dataset/rows.csv
+              printf '%s\n' '{"rows":2}' > /source/dataset/manifest.json
+          resources:
+            requests:
+              cpu: 25m
+              memory: 32Mi
+            limits:
+              cpu: 100m
+              memory: 64Mi
+          volumeMounts:
+            - name: data
+              mountPath: /source
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: lesson22-source

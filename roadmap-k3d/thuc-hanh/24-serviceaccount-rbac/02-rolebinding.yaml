@@ -1,0 +1,15 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: lesson24-bind-reader
+  namespace: de-lab
+  labels:
+    lesson: "24"
+subjects:
+  - kind: ServiceAccount
+    name: lesson24-reader
+    namespace: de-lab
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: lesson24-read-settings

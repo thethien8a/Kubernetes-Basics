@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: lesson23-etl-settings
+  namespace: de-lab
+  labels:
+    lesson: "23"
+data:
+  batch-size: "500"

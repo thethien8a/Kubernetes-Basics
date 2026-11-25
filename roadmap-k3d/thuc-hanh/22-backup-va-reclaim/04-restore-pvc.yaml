@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: lesson22-restored
+  namespace: de-lab
+  labels:
+    team: data
+    environment: lab
+    lesson: "22"
+    app: backup-restore
+spec:
+  storageClassName: local-path
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: 64Mi

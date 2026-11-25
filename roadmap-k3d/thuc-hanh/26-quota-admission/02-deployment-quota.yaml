@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lesson26-extra
+  namespace: lesson26-test
+  labels:
+    team: data
+    environment: lab
+    lesson: "26"
+    app: lesson26-extra
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lesson26-extra
+  template:
+    metadata:
+      labels:
+        team: data
+        environment: lab
+        lesson: "26"
+        app: lesson26-extra
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - name: worker
+          image: busybox:1.37.0@sha256:a7dbc319b1438115a207e11930dc4bb3e643dcb3ec0bdd694bb36cd8fad289ec
+          imagePullPolicy: IfNotPresent
+          command: ["sleep", "86400"]
+          resources:
+            requests:
+              cpu: 25m
+            limits:
+              cpu: 100m
