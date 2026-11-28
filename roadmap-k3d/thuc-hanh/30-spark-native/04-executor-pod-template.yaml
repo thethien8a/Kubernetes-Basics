@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    lesson: "30"
+spec:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: In
+                values:
+                  - k3d-de-k3d-agent-0
+                  - k3d-de-k3d-agent-1
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        - labelSelector:
+            matchLabels:
+              spark-role: executor
+              lesson30-run: demo-01
+          topologyKey: kubernetes.io/hostname
+  containers:
+    - name: spark-kubernetes-executor
+      env:
+        - name: LESSON30_POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: LESSON30_POD_UID
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.uid
+        - name: LESSON30_NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName

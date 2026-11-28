@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: lesson30-spark
+  labels:
+    environment: lab
+    lesson: "30"

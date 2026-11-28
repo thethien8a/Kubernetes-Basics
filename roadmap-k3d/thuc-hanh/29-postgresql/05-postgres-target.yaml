@@ -1,0 +1,150 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: pg-target-headless
+  namespace: lesson29-pg
+  labels:
+    environment: lab
+    lesson: "29"
+    app: lesson29-pg
+spec:
+  clusterIP: None
+  selector:
+    app: lesson29-pg
+    role: db-target # Keep target backend separate from pg-svc selector (role=db)
+  ports:
+    - name: postgres
+      port: 5432
+      targetPort: postgres
+      protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pg-target-svc
+  namespace: lesson29-pg
+  labels:
+    environment: lab
+    lesson: "29"
+    app: lesson29-pg
+spec:
+  type: ClusterIP
+  selector:
+    app: lesson29-pg
+    role: db-target
+  ports:
+    - name: postgres
+      port: 5432
+      targetPort: postgres
+      protocol: TCP
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-pg-target-client-only
+  namespace: lesson29-pg
+  labels:
+    environment: lab
+    lesson: "29"
+    app: lesson29-pg
+spec:
+  podSelector:
+    matchLabels:
+      app: lesson29-pg
+      role: db-target
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: lesson29-pg
+              role: client
+      ports:
+        - protocol: TCP
+          port: 5432
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: pg-target
+  namespace: lesson29-pg
+  labels:
+    environment: lab
+    lesson: "29"
+    app: lesson29-pg
+spec:
+  serviceName: pg-target-headless
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lesson29-pg
+      role: db-target
+  template:
+    metadata:
+      labels:
+        environment: lab
+        lesson: "29"
+        app: lesson29-pg
+        role: db-target
+    spec:
+      automountServiceAccountToken: false # Target DB does not call Kubernetes API
+      enableServiceLinks: false
+      terminationGracePeriodSeconds: 30 # Allow clean PostgreSQL shutdown on SIGTERM
+      nodeSelector:
+        kubernetes.io/hostname: k3d-de-k3d-agent-0 # Keep DB traffic cross-node from pg-client on agent-1
+      containers:
+        - name: postgres
+          image: postgres:17.12-alpine@sha256:f9cf3e1f0066f0eb0c48707d864f0ac5941e9ff454a072077d97a4d278d07d73
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: postgres
+              containerPort: 5432
+              protocol: TCP
+          env:
+            - name: POSTGRES_USER
+              value: de_app
+            - name: POSTGRES_DB
+              value: orders_restored # Distinct database name to separate restore target from source
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: lesson29-pg-auth
+                  key: password
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata # Subdirectory avoids mount-root initdb conflicts
+          volumeMounts:
+            - name: pgdata
+              mountPath: /var/lib/postgresql/data # Matches VOLUME declared by official postgres:17 image
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 256Mi
+          startupProbe:
+            exec:
+              command: ["pg_isready", "-h", "127.0.0.1", "-p", "5432", "-U", "de_app", "-d", "orders_restored"]
+            failureThreshold: 12
+            periodSeconds: 5
+            timeoutSeconds: 3
+          readinessProbe:
+            exec:
+              command: ["pg_isready", "-h", "127.0.0.1", "-p", "5432", "-U", "de_app", "-d", "orders_restored"]
+            periodSeconds: 5
+            timeoutSeconds: 3
+          livenessProbe:
+            exec:
+              command: ["pg_isready", "-h", "127.0.0.1", "-p", "5432", "-U", "de_app", "-d", "orders_restored"]
+            periodSeconds: 10
+            timeoutSeconds: 3
+  volumeClaimTemplates:
+    - metadata:
+        name: pgdata
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: local-path
+        resources:
+          requests:
+            storage: 256Mi

@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: lesson28-route
+  namespace: lesson28-debug
+  labels:
+    environment: lab
+    lesson: "28"
+    app: lesson28-route
+spec:
+  type: ClusterIP
+  selector:
+    lesson: "28"
+    app: lesson28-route
+    role: backend
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8080
+      protocol: TCP

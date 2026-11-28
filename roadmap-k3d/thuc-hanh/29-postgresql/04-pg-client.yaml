@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pg-client
+  namespace: lesson29-pg
+  labels:
+    environment: lab
+    lesson: "29"
+    app: lesson29-pg
+    role: client
+spec:
+  automountServiceAccountToken: false # Client pod does not call Kubernetes API
+  enableServiceLinks: false
+  restartPolicy: Never
+  nodeSelector:
+    kubernetes.io/hostname: k3d-de-k3d-agent-1 # Separate node from DB pod on agent-0
+  containers:
+    - name: psql
+      image: postgres:17.12-alpine@sha256:f9cf3e1f0066f0eb0c48707d864f0ac5941e9ff454a072077d97a4d278d07d73
+      imagePullPolicy: IfNotPresent
+      command: ["sleep", "86400"]
+      env:
+        - name: PGHOST
+          value: pg-svc
+        - name: PGPORT
+          value: "5432"
+        - name: PGUSER
+          value: de_app
+        - name: PGDATABASE
+          value: orders_db
+        - name: PGPASSWORD # libpq reads PGPASSWORD at runtime, unlike server init POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: lesson29-pg-auth
+              key: password
+      resources:
+        requests:
+          cpu: 25m
+          memory: 32Mi
+        limits:
+          cpu: 100m
+          memory: 64Mi

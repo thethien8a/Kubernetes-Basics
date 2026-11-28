@@ -1,0 +1,48 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: lesson30-app
+  namespace: lesson30-spark
+  labels:
+    lesson: "30"
+data:
+  lesson30.py: |
+    import os
+
+    from pyspark import SparkContext, TaskContext
+
+
+    def summarize_partition(values):
+        subtotal = sum(value * 2 for value in values if value % 2 == 0)
+        yield (
+            TaskContext.get().partitionId(),
+            os.environ["LESSON30_POD_NAME"],
+            os.environ["LESSON30_POD_UID"],
+            os.environ["LESSON30_NODE_NAME"],
+            subtotal,
+        )
+
+
+    def main():
+        with SparkContext() as sc:
+            # A barrier stage needs both one-slot executors before it can start.
+            partials = (
+                sc.parallelize([3, 8, 11, 20], 2)
+                .barrier()
+                .mapPartitions(summarize_partition)
+                .collect()
+            )
+
+            total = 0
+            for partition, pod, uid, node, subtotal in sorted(partials):
+                total += subtotal
+                print(
+                    f"LESSON30_PARTITION partition={partition} pod={pod} uid={uid} "
+                    f"node={node} subtotal={subtotal}",
+                    flush=True,
+                )
+            print(f"LESSON30_RESULT total={total}", flush=True)
+
+
+    if __name__ == "__main__":
+        main()

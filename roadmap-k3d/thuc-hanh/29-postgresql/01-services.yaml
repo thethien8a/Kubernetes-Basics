@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: pg-headless
+  namespace: lesson29-pg
+  labels:
+    environment: lab
+    lesson: "29"
+    app: lesson29-pg
+spec:
+  clusterIP: None
+  selector:
+    app: lesson29-pg
+    role: db
+  ports:
+    - name: postgres
+      port: 5432
+      targetPort: postgres
+      protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pg-svc
+  namespace: lesson29-pg
+  labels:
+    environment: lab
+    lesson: "29"
+    app: lesson29-pg
+spec:
+  type: ClusterIP
+  selector:
+    app: lesson29-pg
+    role: db
+  ports:
+    - name: postgres
+      port: 5432
+      targetPort: postgres
+      protocol: TCP

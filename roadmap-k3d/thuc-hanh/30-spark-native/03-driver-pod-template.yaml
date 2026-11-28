@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    lesson: "30"
+spec:
+  activeDeadlineSeconds: 480
+  containers:
+    - name: spark-kubernetes-driver
+      volumeMounts:
+        - name: app-code
+          mountPath: /opt/lesson30
+          readOnly: true
+  volumes:
+    - name: app-code
+      configMap:
+        name: lesson30-app

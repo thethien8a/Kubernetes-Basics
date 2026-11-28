@@ -1,0 +1,14 @@
+                                                                                            
+(                                                                                          
+    set -e                                                                                   
+    cd "$BACKUP_DIR"                                                                         
+    date '+backup_started=%Y-%m-%dT%H:%M:%S%z' > backup-times.txt                            
+    k29 exec pg-client -c psql -- \                                                          
+    pg_dump -h pg-svc -p 5432 -U de_app -d orders_db -Fc --no-owner --no-privileges \      
+    > orders_db.dump.part                                                                  
+    k29 exec -i pg-client -c psql -- pg_restore -l < orders_db.dump.part                     
+    mv orders_db.dump.part orders_db.dump                                                    
+    shasum -a 256 orders_db.dump > orders_db.dump.sha256                                     
+    date '+backup_verified=%Y-%m-%dT%H:%M:%S%z' >> backup-times.txt                          
+    cat orders_db.dump.sha256 backup-times.txt                                               
+)  

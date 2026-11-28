@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: lesson28-debug
+  labels:
+    environment: lab
+    lesson: "28"

@@ -1,0 +1,84 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: pg-source
+  namespace: lesson29-pg
+  labels:
+    environment: lab
+    lesson: "29"
+    app: lesson29-pg
+spec:
+  serviceName: pg-headless
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lesson29-pg
+      role: db
+  template:
+    metadata:
+      labels:
+        environment: lab
+        lesson: "29"
+        app: lesson29-pg
+        role: db
+    spec:
+      automountServiceAccountToken: false # DB workload does not call Kubernetes API
+      enableServiceLinks: false # Avoid injecting unrelated Service env vars into postgres
+      terminationGracePeriodSeconds: 30 # Allow PostgreSQL time to checkpoint cleanly on SIGTERM
+      nodeSelector:
+        kubernetes.io/hostname: k3d-de-k3d-agent-0 # Isolate DB on agent-0 so client runs on another node
+      containers:
+        - name: postgres
+          image: postgres:17.12-alpine@sha256:f9cf3e1f0066f0eb0c48707d864f0ac5941e9ff454a072077d97a4d278d07d73
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: postgres
+              containerPort: 5432
+              protocol: TCP
+          env:
+            - name: POSTGRES_USER
+              value: de_app
+            - name: POSTGRES_DB
+              value: orders_db
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: lesson29-pg-auth
+                  key: password
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata # Subdirectory avoids lost+found initdb conflict at mount root
+          volumeMounts:
+            - name: pgdata
+              mountPath: /var/lib/postgresql/data # Matches VOLUME declared by official postgres:17 image
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 256Mi
+          startupProbe:
+            exec:
+              command: ["pg_isready", "-h", "127.0.0.1", "-p", "5432", "-U", "de_app", "-d", "orders_db"]
+            failureThreshold: 12
+            periodSeconds: 5
+            timeoutSeconds: 3
+          readinessProbe:
+            exec:
+              command: ["pg_isready", "-h", "127.0.0.1", "-p", "5432", "-U", "de_app", "-d", "orders_db"]
+            periodSeconds: 5
+            timeoutSeconds: 3
+          livenessProbe:
+            exec:
+              command: ["pg_isready", "-h", "127.0.0.1", "-p", "5432", "-U", "de_app", "-d", "orders_db"]
+            periodSeconds: 10
+            timeoutSeconds: 3
+  volumeClaimTemplates:
+    - metadata:
+        name: pgdata
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: local-path
+        resources:
+          requests:
+            storage: 256Mi

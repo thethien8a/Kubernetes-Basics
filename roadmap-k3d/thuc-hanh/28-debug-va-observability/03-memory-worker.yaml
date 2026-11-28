@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lesson28-memory
+  namespace: lesson28-debug
+  labels:
+    environment: lab
+    lesson: "28"
+    app: lesson28-memory
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      lesson: "28"
+      app: lesson28-memory
+  template:
+    metadata:
+      labels:
+        environment: lab
+        lesson: "28"
+        app: lesson28-memory
+    spec:
+      automountServiceAccountToken: false
+      enableServiceLinks: false
+      terminationGracePeriodSeconds: 5
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        runAsGroup: 10001
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: worker
+          image: busybox:1.37.0@sha256:a7dbc319b1438115a207e11930dc4bb3e643dcb3ec0bdd694bb36cd8fad289ec
+          imagePullPolicy: IfNotPresent
+          command: ["/bin/sh", "-ec", "exec sleep 86400"]
+          resources:
+            requests:
+              cpu: 25m
+              memory: 16Gi
+            limits:
+              cpu: 100m
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
